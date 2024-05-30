@@ -7,6 +7,13 @@ app = Flask(__name__)
 app.config.from_object('config.Config')
 db = SQLAlchemy(app)
 
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
+
+app.after_request(add_cors_headers)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
