@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function confirmDelete(key) {
+            if (confirm("Do you want to delete " + key + "?")) {
+                fetch('/api/v1/delete', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ key: key })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        window.location.reload();
+                    } else {
+                        alert(data.error);
+                    }
+                });
+            }
+        }
+
+        function updateValue(key, value) {
+            const newValue = prompt("Update value for " + key, value);
+            if (newValue !== null) {
+                fetch('/api/v1/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ key: key, value: newValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        window.location.reload();
+                    } else {
+                        alert(data.error);
+                    }
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <table>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+            <th>Actions</th>
+        </tr>
+        {% for kv in key_values %}
+        <tr>
+            <td>{{ kv.key }}</td>
+            <td>{{ kv.value }}</td>
+            <td>
+                <button onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                <button onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form method="POST">
+        <label>Key:</label>
+        <input type="text" name="key" required>
+        <label>Value:</label>
+        <input type="text" name="value" required>
+        <button type="submit">Add Key-Value</button>
+    </form>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
