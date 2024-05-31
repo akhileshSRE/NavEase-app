@@ -3,22 +3,36 @@
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        async function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                window.location.href = '/dashboard';
+            } else {
+                alert(data.message || 'Login failed');
+            }
+        }
+    </script>
 </head>
 <body>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class="flashes">
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-    <form method="POST">
+    <form onsubmit="login(event)">
         <label>Username:</label>
-        <input type="text" name="username" required>
+        <input type="text" id="username" name="username" required>
         <label>Password:</label>
-        <input type="password" name="password" required>
+        <input type="password" id="password" name="password" required>
         <button type="submit">Login</button>
     </form>
 </body>

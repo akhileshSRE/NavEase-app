@@ -1,18 +1,13 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_cors import CORS
 import os
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
+CORS(app)  # Enable CORS for all routes
 db = SQLAlchemy(app)
-
-def add_cors_headers(response):
-    response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-    return response
-
-app.after_request(add_cors_headers)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -43,16 +38,18 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        data = request.json
+        username = data.get('username')
+        password = data.get('password')
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             session['user_id'] = user.id
             if user.is_admin and not user.password_reset:
-                return redirect(url_for('reset_password'))
-            return redirect(url_for('dashboard'))
-        flash('Invalid username or password')
+                return jsonify({'redirect': url_for('reset_password')}), 200
+            return jsonify({'redirect': url_for('dashboard')}), 200
+        return jsonify({'message': 'Invalid username or password'}), 401
     return render_template('login.html')
+
 
 @app.route('/logout')
 def logout():
