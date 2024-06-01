@@ -23,12 +23,23 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-right: 2rem;
 }
 
 .login-image img {
     border-radius: 50%;
     width: 200px;
     height: 200px;
+}
+
+.login-form-wrapper {
+    flex: 2;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-left: 2px solid #ccc; /* Add partition line */
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .login-form {
