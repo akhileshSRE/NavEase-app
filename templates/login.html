@@ -4,29 +4,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script>
-        async function login(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                window.location.href = '/dashboard';
-            } else {
-                alert(data.message || 'Login failed');
-            }
-        }
-    </script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 </head>
 <body>
     <div class="login-container">
