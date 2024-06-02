@@ -1,6 +1,16 @@
 
 /* Dashboard CSS */
 
+body {
+    font-family: 'Arial', sans-serif;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
 .dashboard-container {
     background: #fff;
     padding: 2rem;
