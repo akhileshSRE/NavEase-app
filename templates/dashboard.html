@@ -30,30 +30,32 @@
                 {% endif %}
                 {% endwith %}
             </div>
-    </header>
+        </header>
     </div>
     <div class="card">
-        <table class="dashboard-table">
-            <thead>
-                <tr>
-                    <th>Key</th>
-                    <th>URL</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for kv in key_values %}
-                <tr>
-                    <td>{{ kv.key }}</td>
-                    <td>{{ kv.value }}</td>
-                    <td>
-                        <button class="update-button" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
-                        <button class="delete-button" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>URL</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for kv in key_values %}
+                    <tr>
+                        <td>{{ kv.key }}</td>
+                        <td>{{ kv.value }}</td>
+                        <td>
+                            <button class="update-button" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                            <button class="delete-button" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         <form class="add-form" method="POST">
             <div class="form-group">
                 <label for="key">Key:</label>
@@ -66,7 +68,5 @@
             <button type="submit" class="add-button">Add Key-Value</button>
         </form>
     </div>
-    </body>
-    </body>
 </body>
 </html>
