@@ -390,15 +390,13 @@ header h1 {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
-    padding: 0 20px;
     justify-content:space-between;
 }
 
 .navbar-logo {
     position: relative;
     width: 50px;
-    left: 15px;
+    left: 50px;
 }
 
 .navbar-brand {
@@ -407,6 +405,11 @@ header h1 {
     font-weight: normal;
     text-decoration: none;
 }
+
+.button-container {
+    padding-right: 50px;
+}
+
 .logout-nav-button {
     border-radius: 20px;
     padding: 10px;
