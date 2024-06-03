@@ -407,18 +407,15 @@ header h1 {
     font-weight: normal;
     text-decoration: none;
 }
-
 .logout-nav-button {
-    padding: 10px;
-    border: none;
     border-radius: 20px;
-    background: #414b56;
-    color: #fff;
+    padding: 10px;
+    color: #414b56;
     font-size: 15px;
+    border-color: #414b56;
+    border-width: thin;
+    background-color: #d7d7d7;
     transition: background 0.3s;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-    text-decoration: none;
 }
 
 .logout-nav-button:hover {
