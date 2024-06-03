@@ -12,7 +12,9 @@
             <img class="navbar-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="User Icon">
             <a href="#" class="navbar-brand">Keyword-based URL Redirection</a>
             <div class="button-container">
-                <button href="{{ url_for('logout') }}" class="logout-nav-button btn default">Logout</button>
+                <form action="{{ url_for('logout') }}" style="display: inline;">
+                    <button type="submit" class="logout-nav-button btn default">Logout</button>
+                </form>
             </div>
         </div>
     </nav>
