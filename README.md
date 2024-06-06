@@ -1,6 +1,8 @@
 # NavEase: Keyword-based URL Redirection
 
-![Logo](./static/images/logo.png)
+<p align="center">
+  <img src="./static/images/logo-color.png" alt="Logo" width="300" height="300">
+</p>
 
 ## Introduction
 NavEase is a Chrome extension that simplifies your browsing by allowing you to set up custom keywords for quick URL navigation. Instead of typing full URLs, you can use short, memorable keywords to reach your favorite websites instantly.
