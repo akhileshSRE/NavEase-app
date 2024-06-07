@@ -38,7 +38,7 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'user_id' in session:
-        return redirect(url_for('dashboard'))
+        return jsonify({'redirect': url_for('dashboard')}), 200
     if request.method == 'POST':
         data = request.json
         username = data.get('username')
