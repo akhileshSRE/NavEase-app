@@ -50,3 +50,25 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }, 5000); // Match the duration of the fadeOut animation
 });
+
+function filterTable() {
+    const searchInput = document.getElementById("search-input");
+    const filter = searchInput.value.toLowerCase();
+    const table = document.querySelector(".dashboard-table");
+    const rows = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName("td");
+        let shouldDisplay = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            const cellValue = cells[j].textContent.toLowerCase();
+            if (cellValue.includes(filter)) {
+                shouldDisplay = true;
+                break;
+            }
+        }
+
+        rows[i].style.display = shouldDisplay ? "" : "none";
+    }
+}
