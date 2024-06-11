@@ -22,7 +22,12 @@
         <header>
             <div class="header-body">
                 <h1>Dashboard</h1>
-                {% with messages = get_flashed_messages() %}
+            </div>
+        </header>
+    </div>
+    <div class="card">
+        <div class="flash-container">
+            {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     <ul class="flashes">
                     {% for message in messages %}
@@ -31,10 +36,10 @@
                     </ul>
                 {% endif %}
                 {% endwith %}
-            </div>
-        </header>
-    </div>
-    <div class="card">
+        </div>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()">
+        </div>
         <div class="table-container">
             <table class="dashboard-table">
                 <thead>
