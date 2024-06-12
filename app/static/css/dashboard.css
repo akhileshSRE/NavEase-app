@@ -92,14 +92,11 @@ header h1 {
     left: 2%; /* Adjust as necessary */
 }
 
-.card {
-    background: #f9f9f9;
+.main-content { 
     position: fixed;
     top: 16%;
     width: 95%;
     height: 80%; /* Adjust as necessary */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,13 +106,13 @@ header h1 {
 .table-container {
     width: 95%;
     height: 100%;
-    padding-top: 1rem;
     overflow: auto; /* Make table scrollable */
 }
 
 .dashboard-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-bottom: 1.5rem;
 }
 
@@ -129,6 +126,9 @@ header h1 {
     background: #f2f2f2;
     color: #333;
     font-weight: bold;
+    position: sticky;
+    top: 0; /* Fix the header to the top */
+    z-index: 1; /* Ensure the header stays on top of other table content */
 }
 
 .dashboard-table th:nth-child(1), .dashboard-table td:nth-child(1) {
@@ -265,9 +265,8 @@ header h1 {
 
 .search-container {
     width: 20%;
-    margin-top: 1rem;
     margin-left: auto;
-    margin-right: 5%;
+    margin-right: 7%;
 }
 
 #search-input {

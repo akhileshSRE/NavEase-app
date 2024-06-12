@@ -18,27 +18,27 @@
             </div>
         </div>
     </nav>
-    <div class="header-container">
-        <header>
-            <div class="header-body">
-                <h1>Dashboard</h1>
+    <div class="main-content">
+        <div class="header-container">
+            <header>
+                <div class="header-body">
+                    <h1>Dashboard</h1>
+                </div>
+            </header>
+            <div class="flash-container">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flashes">
+                        {% for message in messages %}
+                            <li class="flash-message">{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% endwith %}
             </div>
-        </header>
-    </div>
-    <div class="card">
-        <div class="flash-container">
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <ul class="flashes">
-                    {% for message in messages %}
-                        <li class="flash-message">{{ message }}</li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-                {% endwith %}
-        </div>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()">
+            </div>
         </div>
         <div class="table-container">
             <table class="dashboard-table">
