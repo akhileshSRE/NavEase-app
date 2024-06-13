@@ -79,7 +79,6 @@ function toggleSidenav() {
     const toggleBtn = document.querySelector('.toggle-btn');
 
     sidenav.classList.toggle('active');
-    sidenav.classList.toggle('inactive');
     mainContent.classList.toggle('sidenav-active');
     toggleBtn.classList.toggle('active');
 }

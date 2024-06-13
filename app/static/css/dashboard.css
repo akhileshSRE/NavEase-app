@@ -325,11 +325,11 @@ header h1 {
 /* Sidenav styles */
 .sidenav {
     height: calc(100% - 60px);
-    width: 60px; /* Reduced width for collapsed state */
+    width: 200px;
     position: fixed;
     z-index: 1;
     top: 60px;
-    left: -60px; /* Initially hidden */
+    left: -200px; /* Initially hidden */
     background-color: #f1f1f1;
     overflow-x: hidden;
     padding-top: 20px;
@@ -338,7 +338,6 @@ header h1 {
 
 .sidenav.active {
     left: 0; /* Visible when active */
-    width: 200px; /* Full width when expanded */
 }
 
 .sidenav a {
@@ -352,11 +351,6 @@ header h1 {
 
 .sidenav a span {
     margin-left: 10px;
-    display: none; /* Hide text initially */
-}
-
-.sidenav.active a span {
-    display: inline; /* Show text when expanded */
 }
 
 .sidenav a:hover {
@@ -371,36 +365,25 @@ header h1 {
 }
 
 .sidenav-profile img {
-    width: 30px; /* Reduced size for collapsed state */
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
-.sidenav.active .sidenav-profile img {
-    width: 40px; /* Restore size when expanded */
-    height: 40px;
-}
-
 .sidenav-profile span {
     font-weight: bold;
-    display: none; /* Hide text initially */
-}
-
-.sidenav.active .sidenav-profile span {
-    display: inline; /* Show text when expanded */
 }
 
 .main-content {
-    margin-left: 60px; /* Adjust margin based on collapsed sidenav width */
+    margin-left: 0;
     transition: margin-left 0.5s;
-    width: calc(100% - 60px); /* Adjust width based on collapsed sidenav width */
-    transition: width 0.5s;
+    width: 100%;
 }
 
 .main-content.sidenav-active {
-    margin-left: 200px; /* Adjust margin when sidenav is expanded */
-    width: calc(100% - 200px); /* Adjust width when sidenav is expanded */
+    margin-left: 200px;
+    width: calc(100% - 200px);
 }
 
 /* Toggle button styles */
@@ -410,11 +393,11 @@ header h1 {
     cursor: pointer;
     position: fixed;
     top: 70px;
-    left: 20px; /* Adjust position based on collapsed sidenav width */
+    left: 10px;
     z-index: 2;
     transition: left 0.5s;
 }
 
 .toggle-btn.active {
-    left: 210px; /* Adjust position when sidenav is expanded */
+    left: 210px;
 }

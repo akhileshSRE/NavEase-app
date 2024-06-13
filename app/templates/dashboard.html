@@ -20,19 +20,19 @@
             </div>
         </div>
     </nav>
-    <!-- Toggle button for the sidenav -->
+    <!-- Toggle button -->
     <span class="toggle-btn" onclick="toggleSidenav()">&#9776;</span>
 
-    <div class="sidenav inactive">
+    <div class="sidenav">
         <div class="sidenav-profile">
             <img src="{{ url_for('static', filename='images/user.png') }}" alt="User Icon">
             <span>John Doe</span>
         </div>
-        <a href="#"><i class="fas fa-user"></i> Profile</a>
-        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <a href="#"><i class="fas fa-user"></i> <span>Profile</span></a>
+        <a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a>
     </div>
 
-    <div class="main-content sidenav-active">
+    <div class="main-content">
         <div class="header-container">
             <header>
                 <div class="header-body">
