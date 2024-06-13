@@ -324,24 +324,21 @@ header h1 {
 
 /* Sidenav styles */
 .sidenav {
-    height: calc(100% - 60px); /* Adjust height to account for the navbar */
-    width: 200px;
+    height: calc(100% - 60px);
+    width: 60px; /* Reduced width for collapsed state */
     position: fixed;
     z-index: 1;
-    top: 60px; /* Position the sidenav below the navbar */
-    left: 0;
+    top: 60px;
+    left: -60px; /* Initially hidden */
     background-color: #f1f1f1;
     overflow-x: hidden;
     padding-top: 20px;
-    transition: 0.5s; /* Add transition for smooth toggle */
+    transition: 0.5s;
 }
 
 .sidenav.active {
-    left: 0; /* Visible state */
-}
-
-.sidenav.inactive {
-    left: -200px; /* Hidden state */
+    left: 0; /* Visible when active */
+    width: 200px; /* Full width when expanded */
 }
 
 .sidenav a {
@@ -349,7 +346,17 @@ header h1 {
     text-decoration: none;
     font-size: 16px;
     color: #333;
-    display: block;
+    display: flex;
+    align-items: center;
+}
+
+.sidenav a span {
+    margin-left: 10px;
+    display: none; /* Hide text initially */
+}
+
+.sidenav.active a span {
+    display: inline; /* Show text when expanded */
 }
 
 .sidenav a:hover {
@@ -364,23 +371,36 @@ header h1 {
 }
 
 .sidenav-profile img {
-    width: 40px;
-    height: 40px;
+    width: 30px; /* Reduced size for collapsed state */
+    height: 30px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
+.sidenav.active .sidenav-profile img {
+    width: 40px; /* Restore size when expanded */
+    height: 40px;
+}
+
 .sidenav-profile span {
     font-weight: bold;
+    display: none; /* Hide text initially */
+}
+
+.sidenav.active .sidenav-profile span {
+    display: inline; /* Show text when expanded */
 }
 
 .main-content {
-    margin-left: 200px; /* Same as the width of the sidenav */
-    transition: margin-left 0.5s; /* Add transition for smooth toggle */
+    margin-left: 60px; /* Adjust margin based on collapsed sidenav width */
+    transition: margin-left 0.5s;
+    width: calc(100% - 60px); /* Adjust width based on collapsed sidenav width */
+    transition: width 0.5s;
 }
 
 .main-content.sidenav-active {
-    margin-left: 0; /* Adjust content when sidenav is hidden */
+    margin-left: 200px; /* Adjust margin when sidenav is expanded */
+    width: calc(100% - 200px); /* Adjust width when sidenav is expanded */
 }
 
 /* Toggle button styles */
@@ -389,30 +409,12 @@ header h1 {
     color: #333;
     cursor: pointer;
     position: fixed;
-    top: 70px; /* Adjust position below the navbar */
-    left: 10px;
+    top: 70px;
+    left: 20px; /* Adjust position based on collapsed sidenav width */
     z-index: 2;
-    transition: left 0.5s; /* Add transition for smooth toggle */
+    transition: left 0.5s;
 }
 
 .toggle-btn.active {
-    left: 210px; /* Adjust position when sidenav is visible */
-}
-
-@media (max-width: 768px) {
-    .sidenav {
-        width: 150px;
-    }
-
-    .sidenav.inactive {
-        left: -150px; /* Hidden state */
-    }
-
-    .main-content {
-        margin-left: 150px; /* Same as the width of the sidenav */
-    }
-
-    .toggle-btn.active {
-        left: 160px; /* Adjust position when sidenav is visible */
-    }
+    left: 210px; /* Adjust position when sidenav is expanded */
 }
