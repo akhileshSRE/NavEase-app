@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
@@ -34,7 +35,7 @@
                         {% endfor %}
                         </ul>
                     {% endif %}
-                    {% endwith %}
+                {% endwith %}
             </div>
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()">
