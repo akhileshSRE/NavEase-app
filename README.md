@@ -47,9 +47,9 @@ http://localhost:8080
 
 ## Complete Usage Guide
 
-[Medium Documentation](https://medium.com/@akhilesh0.id/welcome-to-navease-your-ultimate-chrome-extension-for-quick-url-navigation-e06ae21262b2)
-[Hashnode Documentation](https://navease.hashnode.dev/unlock-seamless-browsing-define-search-keys-for-instant-url-redirection-with-navease-chrome-extension)
-[Youtube](https://youtu.be/z_k4ilvMVB8)
+- [Medium Documentation](https://medium.com/@akhilesh0.id/welcome-to-navease-your-ultimate-chrome-extension-for-quick-url-navigation-e06ae21262b2)
+- [Hashnode Documentation](https://navease.hashnode.dev/unlock-seamless-browsing-define-search-keys-for-instant-url-redirection-with-navease-chrome-extension)
+- [Youtube](https://youtu.be/z_k4ilvMVB8)
 ## License
 
 This project is licensed under the Apache License, Version 2.0. You may obtain a copy of the License at
