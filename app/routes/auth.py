@@ -8,7 +8,7 @@ bp = Blueprint('auth', __name__)
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if 'user_id' in session:
-        return jsonify({'redirect': url_for('main.dashboard')}), 200
+        return redirect(url_for('main.dashboard'))
     if request.method == 'POST':
         data = request.json
         username = data.get('username')
