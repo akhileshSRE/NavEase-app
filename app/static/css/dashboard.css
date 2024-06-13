@@ -320,3 +320,99 @@ header h1 {
         padding: 1%;
     }
 }
+
+
+/* Sidenav styles */
+.sidenav {
+    height: calc(100% - 60px); /* Adjust height to account for the navbar */
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 60px; /* Position the sidenav below the navbar */
+    left: 0;
+    background-color: #f1f1f1;
+    overflow-x: hidden;
+    padding-top: 20px;
+    transition: 0.5s; /* Add transition for smooth toggle */
+}
+
+.sidenav.active {
+    left: 0; /* Visible state */
+}
+
+.sidenav.inactive {
+    left: -200px; /* Hidden state */
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+    display: block;
+}
+
+.sidenav a:hover {
+    background-color: #ddd;
+}
+
+.sidenav-profile {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.sidenav-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.sidenav-profile span {
+    font-weight: bold;
+}
+
+.main-content {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    transition: margin-left 0.5s; /* Add transition for smooth toggle */
+}
+
+.main-content.sidenav-active {
+    margin-left: 0; /* Adjust content when sidenav is hidden */
+}
+
+/* Toggle button styles */
+.toggle-btn {
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    position: fixed;
+    top: 70px; /* Adjust position below the navbar */
+    left: 10px;
+    z-index: 2;
+    transition: left 0.5s; /* Add transition for smooth toggle */
+}
+
+.toggle-btn.active {
+    left: 210px; /* Adjust position when sidenav is visible */
+}
+
+@media (max-width: 768px) {
+    .sidenav {
+        width: 150px;
+    }
+
+    .sidenav.inactive {
+        left: -150px; /* Hidden state */
+    }
+
+    .main-content {
+        margin-left: 150px; /* Same as the width of the sidenav */
+    }
+
+    .toggle-btn.active {
+        left: 160px; /* Adjust position when sidenav is visible */
+    }
+}

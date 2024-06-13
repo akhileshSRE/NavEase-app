@@ -72,3 +72,14 @@ function filterTable() {
         rows[i].style.display = shouldDisplay ? "" : "none";
     }
 }
+
+function toggleSidenav() {
+    const sidenav = document.querySelector('.sidenav');
+    const mainContent = document.querySelector('.main-content');
+    const toggleBtn = document.querySelector('.toggle-btn');
+
+    sidenav.classList.toggle('active');
+    sidenav.classList.toggle('inactive');
+    mainContent.classList.toggle('sidenav-active');
+    toggleBtn.classList.toggle('active');
+}
