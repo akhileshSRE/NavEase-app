@@ -1,7 +1,7 @@
 # NavEase: Keyword-based URL Redirection
 
 <p align="center">
-  <img src="./static/images/logo-color.png" alt="Logo" width="300" height="300">
+  <img src="./app/static/images/logo-color.png" alt="Logo" width="300" height="300">
 </p>
 
 ## Introduction
