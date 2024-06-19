@@ -288,28 +288,8 @@ header h1 {
     width: 200px; /* Adjust this value to control the width when opened */
 }
 
-.sidenav-icons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.sidenav-icon {
-    width: 30px;
-    height: 30px;
-    margin: 10px 0;
-    opacity: 1;
-    transition: opacity 0.3s;
-}
-
-.sidenav.active .sidenav-icon {
-    opacity: 0;
-}
-
 .sidenav a {
-    padding: 6px 8px 6px 16px;
+    padding: 15px;
     text-decoration: none;
     font-size: 16px;
     color: #333;
@@ -339,7 +319,6 @@ header h1 {
     width: 100%;
     opacity: 1;
     transition: opacity 0.3s;
-    opacity: 1;
 }
 
 .sidenav-profile span {
@@ -395,18 +374,18 @@ header h1 {
 
 /* Toggle button styles */
 .toggle-btn {
-    font-size: 20px;
+    font-size: 30px;
     color: #333;
     cursor: pointer;
     position: fixed;
     top: 70px;
-    left: 20px; /* Adjust this value to control the toggle button position */
+    left: 30px; /* Adjust this value to control the toggle button position */
     z-index: 2;
     transition: left 0.3s;
 }
 
 .toggle-btn.active {
-    left: 220px; /* Adjust this value to match the opened sidenav width + toggle button position */
+    left: 170px; /* Adjust this value to match the opened sidenav width + toggle button position */
 }
 
 
