@@ -163,57 +163,6 @@ header h1 {
     background: #c82333;
 }
 
-.add-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-    width: 95%;
-}
-
-.form-group label {
-    margin-bottom: 0.5rem;
-    color: #333;
-    font-size: 16px;
-}
-
-.form-group input {
-    width: 95%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    background: #f9f9f9;
-}
-
-.form-group input:focus {
-    outline: none;
-    border-color: #667eea;
-    background: #fff;
-}
-
-.add-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background: #28a745;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.add-button:hover {
-    background: #218838;
-}
-
 .flash-container {
     position: absolute;
 }
@@ -388,6 +337,82 @@ header h1 {
 
 .toggle-btn.active {
     left: 170px; /* Adjust this value to match the opened sidenav width + toggle button position */
+}
+
+/* + to open form */
+.add-icon-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.add-icon {
+    font-size: 50px;
+    color: #28a745; /* Adjust color as per your design */
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.add-icon:hover {
+    transform: scale(1.2);
+}
+
+.add-form {
+    position: fixed;
+    width: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999; /* Ensure form is above other content */
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(1, 1, 1, 1);
+    display: none; /* Initially hidden */
+}
+
+.add-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.add-form label {
+    font-weight: bold;
+}
+
+.add-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.add-form button {
+    margin-top: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: #28a745;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.add-form button.close-button {
+    background: #dc3545;
+    margin-left: 10px;
+}
+
+.add-form button:hover {
+    background: #a30313;
 }
 
 

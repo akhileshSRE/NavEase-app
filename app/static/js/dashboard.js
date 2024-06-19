@@ -82,3 +82,8 @@ function toggleSidenav() {
     mainContent.classList.toggle('sidenav-active');
     toggleBtn.classList.toggle('active');
 }
+
+function toggleAddForm() {
+    const addForm = document.getElementById('add-form');
+    addForm.style.display = addForm.style.display === 'none' ? 'block' : 'none';
+}
