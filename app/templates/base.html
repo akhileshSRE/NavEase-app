@@ -24,8 +24,8 @@
 
     <div class="sidenav">
         <div class="sidenav-profile">
-            <div class="initial">J</div>
-            <span>John Doe</span>
+            <div class="initial">{{ user.first_name[0] }}</div>
+            <span>{{ user.first_name }} {{ user.last_name }}</span>
         </div>
         <a href="{{ url_for('main.dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
         <a href="{{ url_for('settings.settings') }}"><i class="fas fa-cog"></i> <span>Settings</span></a>

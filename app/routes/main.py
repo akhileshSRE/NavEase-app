@@ -26,7 +26,8 @@ def dashboard():
     return render_template('dashboard.html', 
                            personal_key_values=personal_key_values,
                            team_key_values=team_key_values,
-                           org_key_values=org_key_values)
+                           org_key_values=org_key_values,
+                           user=user)
 
 
 @bp.route('/healthcheck', methods=['GET'])
