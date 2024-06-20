@@ -461,3 +461,225 @@ header h1 {
         padding: 1%;
     }
 }
+
+/* Manage Users */
+
+.mu-page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.mu-sub-title {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.mu-flashes {
+    list-style-type: none;
+    padding: 0;
+}
+
+.mu-flash-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.mu-flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.mu-flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.mu-user-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.mu-user-form .mu-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.mu-user-form .mu-form-group label {
+    margin-bottom: 5px;
+}
+
+.mu-user-form .mu-form-group .mu-form-control {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.mu-btn.mu-btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.mu-btn.mu-btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.mu-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.mu-table th, .mu-table td {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.mu-table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.mu-table th {
+    background-color: #f1f1f1;
+}
+
+/* Manage Team */
+
+.mt-page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.mt-sub-title {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.mt-flashes {
+    list-style-type: none;
+    padding: 0;
+}
+
+.mt-flash-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.mt-flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.mt-flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.mt-team-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.mt-team-form .mt-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.mt-team-form .mt-form-group label {
+    margin-bottom: 5px;
+}
+
+.mt-team-form .mt-form-control {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.mt-btn.mt-btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.mt-btn.mt-btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.mt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.mt-table th, .mt-table td {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.mt-table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+.mt-table th {
+    background-color: #f1f1f1;
+}
+
+
+/* Manage Organisation */
+
+.mo-page-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.mo-organization-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.mo-form-control {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.mo-btn.mo-btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.mo-btn.mo-btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.mo-organization-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.mo-organization-item {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}

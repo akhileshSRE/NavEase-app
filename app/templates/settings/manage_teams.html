@@ -1,36 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Manage Teams</h1>
+<h1 class="mt-page-title">Manage Teams</h1>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
-    <ul class="flashes">
+    <ul class="mt-flashes">
     {% for category, message in messages %}
-      <li class="{{ category }}">{{ message }}</li>
+      <li class="mt-flash-message {{ category }}">{{ message }}</li>
     {% endfor %}
     </ul>
   {% endif %}
 {% endwith %}
 
-<form method="POST" action="{{ url_for('settings.manage_teams') }}">
-    <div>
+<form method="POST" action="{{ url_for('settings.manage_teams') }}" class="mt-team-form">
+    <div class="mt-form-group">
         <label for="name">Team Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" required class="mt-form-control">
     </div>
-    <div>
+    <div class="mt-form-group">
         <label for="organization">Organization:</label>
-        <select id="organization" name="organization" required>
+        <select id="organization" name="organization" required class="mt-form-control">
             {% for org in organizations %}
                 <option value="{{ org.id }}">{{ org.name }}</option>
             {% endfor %}
         </select>
     </div>
-    <button type="submit">Add Team</button>
+    <button type="submit" class="mt-btn mt-btn-primary">Add Team</button>
 </form>
 
-<h2>Existing Teams</h2>
-<table>
+<h2 class="mt-sub-title">Existing Teams</h2>
+<table class="mt-table mt-table-striped">
     <thead>
         <tr>
             <th>Team Name</th>
