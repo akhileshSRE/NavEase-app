@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.models import User, Organization, Team
 from app.decorators import login_required, admin_required
 from app import db
+from werkzeug.security import generate_password_hash
 
 bp = Blueprint('settings', __name__)
 

@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import session, redirect, url_for, jsonify
+from flask import session, redirect, url_for, jsonify, request
 from app.models import User
 
 def login_required(f):
