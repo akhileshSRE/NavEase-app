@@ -52,25 +52,19 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function filterTable() {
-    const searchInput = document.getElementById("search-input");
-    const filter = searchInput.value.toLowerCase();
-    const table = document.querySelector(".dashboard-table");
-    const rows = table.getElementsByTagName("tr");
-
-    for (let i = 1; i < rows.length; i++) {
-        const cells = rows[i].getElementsByTagName("td");
-        let shouldDisplay = false;
-
-        for (let j = 0; j < cells.length; j++) {
-            const cellValue = cells[j].textContent.toLowerCase();
-            if (cellValue.includes(filter)) {
-                shouldDisplay = true;
-                break;
+    const input = document.getElementById('search-input').value.toUpperCase();
+    const tables = document.querySelectorAll('.dashboard-table tbody');
+    tables.forEach(table => {
+        const rows = table.getElementsByTagName('tr');
+        Array.from(rows).forEach(row => {
+            const cells = row.getElementsByTagName('td');
+            if (cells[0].innerText.toUpperCase().indexOf(input) > -1) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
             }
-        }
-
-        rows[i].style.display = shouldDisplay ? "" : "none";
-    }
+        });
+    });
 }
 
 function toggleSidenav() {
@@ -86,4 +80,48 @@ function toggleSidenav() {
 function toggleAddForm() {
     const addForm = document.getElementById('add-form');
     addForm.style.display = addForm.style.display === 'none' ? 'block' : 'none';
+}
+
+function addKeyValue(event) {
+    event.preventDefault();
+
+    const key = document.getElementById('key').value;
+    const value = document.getElementById('value').value;
+    const level = document.getElementById('level').value;
+    const submitButton = document.getElementById('add-key-value-btn');
+    const buttonText = submitButton.querySelector('.button-text');
+    const loadingSpinner = submitButton.querySelector('.loading-spinner');
+
+    // Show loading state
+    buttonText.style.display = 'none';
+    loadingSpinner.style.display = 'inline-block';
+    submitButton.disabled = true;
+
+    fetch('/api/v1/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ key: key, value: value, level: level })
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => { throw err; });
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert(data.message);
+        window.location.reload(); // Reload the page to show the new entry
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert(error.error || 'An error occurred while adding the key-value pair');
+    })
+    .finally(() => {
+        // Reset button state
+        buttonText.style.display = 'inline-block';
+        loadingSpinner.style.display = 'none';
+        submitButton.disabled = false;
+    });
 }
