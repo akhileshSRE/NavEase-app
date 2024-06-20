@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from app.models import User, Organization, Team
 from app.decorators import login_required, admin_required
 from app import db
@@ -8,8 +8,12 @@ bp = Blueprint('settings', __name__)
 
 @bp.route('/settings', methods=['GET'])
 @login_required
+@admin_required
 def settings():
-    return render_template('settings.html')
+    if 'user_id' not in session:
+        return redirect(url_for('auth.login'))
+    user = User.query.get(session['user_id'])
+    return render_template('settings.html', user=user)
 
 @bp.route('/settings/users', methods=['GET', 'POST'])
 @login_required
@@ -44,7 +48,8 @@ def manage_users():
     users = User.query.all()
     organizations = Organization.query.all()
     teams = Team.query.all()
-    return render_template('settings/manage_users.html', users=users, organizations=organizations, teams=teams)
+    user = User.query.get(session['user_id'])
+    return render_template('settings/manage_users.html', users=users, organizations=organizations, teams=teams, user=user)
 
 @bp.route('/settings/organizations', methods=['GET', 'POST'])
 @login_required
@@ -59,7 +64,8 @@ def manage_organizations():
         return redirect(url_for('settings.manage_organizations'))
 
     organizations = Organization.query.all()
-    return render_template('settings/manage_organizations.html', organizations=organizations)
+    user = User.query.get(session['user_id'])
+    return render_template('settings/manage_organizations.html', organizations=organizations, user=user)
 
 @bp.route('/settings/teams', methods=['GET', 'POST'])
 @login_required
@@ -80,4 +86,5 @@ def manage_teams():
 
     teams = Team.query.all()
     organizations = Organization.query.all()
-    return render_template('settings/manage_teams.html', teams=teams, organizations=organizations)
+    user = User.query.get(session['user_id'])
+    return render_template('settings/manage_teams.html', teams=teams, organizations=organizations, user=user)
