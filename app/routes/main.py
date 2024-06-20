@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, session, request, flash, jsonify
 from app.models import KeyValue
 from app import db
+from app.decorators import login_required
 
 bp = Blueprint('main', __name__)
 
@@ -11,6 +12,7 @@ def home():
     return redirect(url_for('auth.login'))
 
 @bp.route('/dashboard', methods=['GET', 'POST'])
+@login_required
 def dashboard():
     if 'user_id' not in session:
         return redirect(url_for('auth.login'))

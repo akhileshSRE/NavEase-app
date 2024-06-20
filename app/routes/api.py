@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify, session
 from app.models import KeyValue
 from app import db
+from app.decorators import login_required
 
 bp = Blueprint('api', __name__)
 
 @bp.route('/api/v1/url', methods=['GET'])
+@login_required
 def get_urls():
     if 'user_id' not in session:
         return jsonify({"error": "Unauthorized"}), 401
@@ -13,6 +15,7 @@ def get_urls():
     return jsonify(response), 200
 
 @bp.route('/api/v1/update', methods=['POST'])
+@login_required
 def update_url():
     if 'user_id' not in session:
         return jsonify({"error": "Unauthorized"}), 401
@@ -25,6 +28,7 @@ def update_url():
     return jsonify({"error": "Key not found"}), 404
 
 @bp.route('/api/v1/delete', methods=['DELETE'])
+@login_required
 def delete_url():
     if 'user_id' not in session:
         return jsonify({"error": "Unauthorized"}), 401
