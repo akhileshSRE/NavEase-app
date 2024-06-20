@@ -1,9 +1,6 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Manage Organizations</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
     <h1>Manage Organizations</h1>
     <form method="POST">
         <input type="text" name="name" placeholder="Organization Name" required>
@@ -14,5 +11,4 @@
             <li>{{ organization.name }}</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}
