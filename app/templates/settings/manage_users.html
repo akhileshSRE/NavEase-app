@@ -1,32 +1,81 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Manage Users</title>
-</head>
-<body>
-    <h1>Manage Users</h1>
-    <form method="POST">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="first_name" placeholder="First Name" required>
-        <input type="text" name="last_name" placeholder="Last Name" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <select name="organization">
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Manage Users</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashes">
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="POST" action="{{ url_for('settings.manage_users') }}">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div>
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+    </div>
+    <div>
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+        <label for="organization">Organization:</label>
+        <select id="organization" name="organization" required>
             {% for org in organizations %}
                 <option value="{{ org.id }}">{{ org.name }}</option>
             {% endfor %}
         </select>
-        <select name="team">
+    </div>
+    <div>
+        <label for="team">Team:</label>
+        <select id="team" name="team" required>
             {% for team in teams %}
                 <option value="{{ team.id }}">{{ team.name }}</option>
             {% endfor %}
         </select>
-        <button type="submit">Add User</button>
-    </form>
-    <ul>
+    </div>
+    <button type="submit">Add User</button>
+</form>
+
+<h2>Existing Users</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Organization</th>
+            <th>Team</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for user in users %}
-            <li>{{ user.username }} - {{ user.email }}</li>
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.organization.name if user.organization else 'N/A' }}</td>
+            <td>{{ user.team.name if user.team else 'N/A' }}</td>
+        </tr>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </tbody>
+</table>
+{% endblock %}

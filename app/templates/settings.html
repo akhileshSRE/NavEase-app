@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Settings</h1>
+<nav>
+    <ul>
+        <li><a href="{{ url_for('settings.manage_users') }}">Manage Users</a></li>
+        <li><a href="{{ url_for('settings.manage_organizations') }}">Manage Organizations</a></li>
+        <li><a href="{{ url_for('settings.manage_teams') }}">Manage Teams</a></li>
+    </ul>
+</nav>
+{% endblock %}

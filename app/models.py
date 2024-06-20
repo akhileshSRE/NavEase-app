@@ -11,17 +11,22 @@ class User(db.Model):
     password_reset = db.Column(db.Boolean, default=False)
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=True)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
-
-class Organization(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), unique=True, nullable=False)
-    users = db.relationship('User', backref='organization', lazy=True)
+    
+    organization = db.relationship('Organization', back_populates='users')
+    team = db.relationship('Team', back_populates='users')
 
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), unique=True, nullable=False)
     organization_id = db.Column(db.Integer, db.ForeignKey('organization.id'), nullable=False)
-    users = db.relationship('User', backref='team', lazy=True)
+    organization = db.relationship('Organization', back_populates='teams')
+    users = db.relationship('User', back_populates='team')
+
+class Organization(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(150), unique=True, nullable=False)
+    users = db.relationship('User', back_populates='organization')
+    teams = db.relationship('Team', back_populates='organization')
 
 class KeyValue(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -6,23 +6,39 @@ from werkzeug.security import generate_password_hash
 
 bp = Blueprint('settings', __name__)
 
+@bp.route('/settings', methods=['GET'])
+@login_required
+def settings():
+    return render_template('settings.html')
+
 @bp.route('/settings/users', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def manage_users():
     if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        password = request.form['password']
-        organization_id = request.form['organization']
-        team_id = request.form['team']
-        user = User(username=username, email=email, first_name=first_name, last_name=last_name,
-                    password=generate_password_hash(password), organization_id=organization_id, team_id=team_id)
-        db.session.add(user)
-        db.session.commit()
-        flash('User added successfully.')
+        username = request.form.get('username')
+        email = request.form.get('email')
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+        password = request.form.get('password')
+        organization_id = request.form.get('organization')
+        team_id = request.form.get('team')
+        
+        if not all([username, email, first_name, last_name, password, organization_id, team_id]):
+            flash('All fields are required.', 'error')
+        else:
+            user = User(
+                username=username,
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                password=generate_password_hash(password),
+                organization_id=organization_id,
+                team_id=team_id
+            )
+            db.session.add(user)
+            db.session.commit()
+            flash('User added successfully.', 'success')
         return redirect(url_for('settings.manage_users'))
 
     users = User.query.all()
@@ -50,12 +66,16 @@ def manage_organizations():
 @admin_required
 def manage_teams():
     if request.method == 'POST':
-        name = request.form['name']
-        organization_id = request.form['organization']
-        team = Team(name=name, organization_id=organization_id)
-        db.session.add(team)
-        db.session.commit()
-        flash('Team added successfully.')
+        name = request.form.get('name')
+        organization_id = request.form.get('organization')
+        
+        if not all([name, organization_id]):
+            flash('All fields are required.', 'error')
+        else:
+            team = Team(name=name, organization_id=organization_id)
+            db.session.add(team)
+            db.session.commit()
+            flash('Team added successfully.', 'success')
         return redirect(url_for('settings.manage_teams'))
 
     teams = Team.query.all()

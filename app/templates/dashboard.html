@@ -1,157 +1,123 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <img class="navbar-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="User Icon">
-            <a href="#" class="navbar-brand">Keyword-based URL Redirection</a>
-            <div class="button-container">
-                <form action="{{ url_for('auth.logout') }}" style="display: inline;">
-                    <button type="submit" class="logout-nav-button btn default">Logout</button>
-                </form>
-            </div>
-        </div>
-    </nav>
-    <!-- Toggle button -->
-    <span class="toggle-btn" onclick="toggleSidenav()">&#9776;</span>
+{% extends "base.html" %}
 
-    <div class="sidenav">
-        <div class="sidenav-profile">
-            <div class="initial">J</div>
-            <span>John Doe</span>
+{% block content %}
+    <div class="header-container">
+        <header>
+            <div class="header-body">
+                <h1>Dashboard</h1>
+            </div>
+        </header>
+        <div class="flash-container">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="flashes">
+                    {% for message in messages %}
+                        <li class="flash-message">{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
         </div>
-        <a href="#"><i class="fas fa-user"></i> <span>Profile</span></a>
-        <a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()">
+        </div>
     </div>
+    <div class="table-container">
+        <h2>Organization Level</h2>
+        <table class="dashboard-table" id="organization-table">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>URL</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kv in org_key_values %}
+                <tr>
+                    <td>{{ kv.key }}</td>
+                    <td>{{ kv.value }}</td>
+                    <td>
+                        <button class="update-button" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                        <button class="delete-button" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <div class="main-content">
-        <div class="header-container">
-            <header>
-                <div class="header-body">
-                    <h1>Dashboard</h1>
-                </div>
-            </header>
-            <div class="flash-container">
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <ul class="flashes">
-                        {% for message in messages %}
-                            <li class="flash-message">{{ message }}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
-            </div>
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()">
-            </div>
-        </div>
-        <div class="table-container">
-            <h2>Organization Level</h2>
-            <table class="dashboard-table" id="organization-table">
-                <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>URL</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for kv in org_key_values %}
-                    <tr>
-                        <td>{{ kv.key }}</td>
-                        <td>{{ kv.value }}</td>
-                        <td>
-                            <button class="update-button" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
-                            <button class="delete-button" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <h2>Team Level</h2>
+        <table class="dashboard-table" id="team-table">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>URL</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kv in team_key_values %}
+                <tr>
+                    <td>{{ kv.key }}</td>
+                    <td>{{ kv.value }}</td>
+                    <td>
+                        <button class="update-button" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                        <button class="delete-button" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-            <h2>Team Level</h2>
-            <table class="dashboard-table" id="team-table">
-                <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>URL</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for kv in team_key_values %}
-                    <tr>
-                        <td>{{ kv.key }}</td>
-                        <td>{{ kv.value }}</td>
-                        <td>
-                            <button class="update-button" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
-                            <button class="delete-button" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <h2>Personal Level</h2>
-            <table class="dashboard-table" id="personal-table">
-                <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>URL</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for kv in personal_key_values %}
-                    <tr>
-                        <td>{{ kv.key }}</td>
-                        <td>{{ kv.value }}</td>
-                        <td>
-                            <button class="update-button" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
-                            <button class="delete-button" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="add-icon-container">
-            <span class="add-icon" onclick="toggleAddForm()"><i class="fas fa-plus-circle"></i></span>
-        </div>
-        <form class="add-form" id="add-form"  onsubmit="addKeyValue(event)" style="display: none;">
-            <div class="form-group">
-                <label for="key">Key:</label>
-                <input type="text" id="key" name="key" required>
-            </div>
-            <div class="form-group">
-                <label for="value">URL:</label>
-                <input type="text" id="value" name="value" required>
-            </div>
-            <div class="form-group">
-                <label for="level">Level:</label>
-                <select id="level" name="level" required>
-                    <option value="organization">Organization</option>
-                    <option value="team">Team</option>
-                    <option value="personal">Personal</option>
-                </select>
-            </div>
-            <button type="submit" id="add-key-value-btn" class="add-button">
-                <span class="button-text">Add Key-Value</span>
-                <span class="loading-spinner" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i>
-                </span>
-            </button>
-            <button type="button" class="close-button" onclick="toggleAddForm()">Close</button>
-        </form>
+        <h2>Personal Level</h2>
+        <table class="dashboard-table" id="personal-table">
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>URL</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kv in personal_key_values %}
+                <tr>
+                    <td>{{ kv.key }}</td>
+                    <td>{{ kv.value }}</td>
+                    <td>
+                        <button class="update-button" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                        <button class="delete-button" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-</body>
-</html>
+    <div class="add-icon-container">
+        <span class="add-icon" onclick="toggleAddForm()"><i class="fas fa-plus-circle"></i></span>
+    </div>
+    <form class="add-form" id="add-form"  onsubmit="addKeyValue(event)" style="display: none;">
+        <div class="form-group">
+            <label for="key">Key:</label>
+            <input type="text" id="key" name="key" required>
+        </div>
+        <div class="form-group">
+            <label for="value">URL:</label>
+            <input type="text" id="value" name="value" required>
+        </div>
+        <div class="form-group">
+            <label for="level">Level:</label>
+            <select id="level" name="level" required>
+                <option value="organization">Organization</option>
+                <option value="team">Team</option>
+                <option value="personal">Personal</option>
+            </select>
+        </div>
+        <button type="submit" id="add-key-value-btn" class="add-button">
+            <span class="button-text">Add Key-Value</span>
+            <span class="loading-spinner" style="display: none;">
+                <i class="fas fa-spinner fa-spin"></i>
+            </span>
+        </button>
+        <button type="button" class="close-button" onclick="toggleAddForm()">Close</button>
+    </form>
+{% endblock %}

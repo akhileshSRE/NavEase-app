@@ -1,23 +1,49 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Manage Teams</title>
-</head>
-<body>
-    <h1>Manage Teams</h1>
-    <form method="POST">
-        <input type="text" name="name" placeholder="Team Name" required>
-        <select name="organization">
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Manage Teams</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashes">
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<form method="POST" action="{{ url_for('settings.manage_teams') }}">
+    <div>
+        <label for="name">Team Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <label for="organization">Organization:</label>
+        <select id="organization" name="organization" required>
             {% for org in organizations %}
                 <option value="{{ org.id }}">{{ org.name }}</option>
             {% endfor %}
         </select>
-        <button type="submit">Add Team</button>
-    </form>
-    <ul>
+    </div>
+    <button type="submit">Add Team</button>
+</form>
+
+<h2>Existing Teams</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Team Name</th>
+            <th>Organization</th>
+        </tr>
+    </thead>
+    <tbody>
         {% for team in teams %}
-            <li>{{ team.name }} ({{ team.organization.name }})</li>
+        <tr>
+            <td>{{ team.name }}</td>
+            <td>{{ team.organization.name }}</td>
+        </tr>
         {% endfor %}
-    </ul>
-</body>
-</html>
+    </tbody>
+</table>
+{% endblock %}
