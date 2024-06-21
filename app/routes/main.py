@@ -23,11 +23,23 @@ def dashboard():
     team_key_values = KeyValue.query.filter_by(team_id=user.team_id, level='team').all()
     org_key_values = KeyValue.query.filter_by(organization_id=user.organization_id, level='organization').all()
     
+    # Fetch organization and team names
+    for kv in org_key_values:
+        kv.org_name = Organization.query.get(kv.organization_id).name if kv.organization_id else 'N/A'
+    
+    for kv in team_key_values:
+        kv.team_name = Team.query.get(kv.team_id).name if kv.team_id else 'N/A'
+    
+    organizations = Organization.query.all()
+    teams = Team.query.all()
+    
     return render_template('dashboard.html', 
                            personal_key_values=personal_key_values,
                            team_key_values=team_key_values,
                            org_key_values=org_key_values,
-                           user=user)
+                           user=user,
+                           organizations=organizations,
+                           teams=teams)
 
 
 @bp.route('/healthcheck', methods=['GET'])
