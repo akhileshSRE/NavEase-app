@@ -79,7 +79,12 @@ function toggleSidenav() {
 
 function toggleAddForm() {
     const addForm = document.getElementById('add-form');
-    addForm.style.display = addForm.style.display === 'none' ? 'block' : 'none';
+    if (addForm.style.display === 'none') {
+        addForm.style.display = 'block';
+    } else {
+        addForm.style.display = 'none';
+        resetForm();
+    }
 }
 
 function addKeyValue(event) {
@@ -125,7 +130,7 @@ function addKeyValue(event) {
         // Update the dashboard dynamically
         updateDashboard(data.newEntry);
         // Reset form
-        document.getElementById('add-form').reset();
+        resetForm();
         toggleAddForm();
     })
     .catch(error => {
@@ -138,6 +143,12 @@ function addKeyValue(event) {
         loadingSpinner.style.display = 'none';
         submitButton.disabled = false;
     });
+}
+
+function resetForm() {
+    document.getElementById('add-form').reset();
+    document.getElementById('level').value = 'personal';
+    toggleOrganizationTeamSelect();
 }
 
 function updateDashboard(newEntry) {

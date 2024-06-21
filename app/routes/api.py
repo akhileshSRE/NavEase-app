@@ -3,7 +3,6 @@ from app.models import KeyValue
 from app import db
 from app.decorators import login_required
 from app.models import KeyValue, User, Organization, Team 
-from sqlalchemy.orm import joinedload
 
 
 bp = Blueprint('api', __name__)
