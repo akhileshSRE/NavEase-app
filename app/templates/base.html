@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>{% block title %}Keyword-based URL Redirection{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <img class="navbar-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            <a href="#" class="navbar-brand">Keyword-based URL Redirection</a>
+            <div class="button-container">
+                <form action="{{ url_for('auth.logout') }}" style="display: inline;">
+                    <button type="submit" class="logout-nav-button btn default">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!-- Toggle button -->
+    <span class="toggle-btn" onclick="toggleSidenav()">&#9776;</span>
+
+    <div class="sidenav">
+        <div class="sidenav-profile">
+            <div class="initial">{{ user.first_name[0] }}</div>
+            <span>{{ user.first_name }} {{ user.last_name }}</span>
+        </div>
+        <a href="{{ url_for('main.dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+        {% if user.is_admin %}
+        <a href="{{ url_for('settings.settings') }}"><i class="fas fa-cog"></i> <span>Settings</span></a>
+        {% endif %}
+    </div>
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

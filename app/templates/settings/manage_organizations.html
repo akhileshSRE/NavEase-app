@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="mo-page-title">Manage Organizations</h1>
+    <form method="POST" class="mo-organization-form">
+        <input type="text" name="name" placeholder="Organization Name" required class="mo-form-control">
+        <button type="submit" class="mo-btn mo-btn-primary">Add Organization</button>
+    </form>
+    <ul class="mo-organization-list">
+        {% for organization in organizations %}
+            <li class="mo-organization-item">{{ organization.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
