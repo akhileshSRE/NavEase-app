@@ -24,8 +24,10 @@
 
     <div class="sidenav">
         <div class="sidenav-profile">
-            <div class="initial">{{ user.first_name[0] }}</div>
-            <span>{{ user.first_name }} {{ user.last_name }}</span>
+            <a href="{{ url_for('main.profile') }}">
+                <div class="initial">{{ user.first_name[0] }}</div>
+                <span>{{ user.first_name }} {{ user.last_name }}</span>
+            </a>
         </div>
         <a href="{{ url_for('main.dashboard') }}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
         {% if user.is_admin %}

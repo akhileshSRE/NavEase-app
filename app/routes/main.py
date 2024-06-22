@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, session, reques
 from app.models import KeyValue, User, Organization, Team
 from app import db
 from app.decorators import login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 
 bp = Blueprint('main', __name__)
 
@@ -40,6 +41,30 @@ def dashboard():
                            user=user,
                            organizations=organizations,
                            teams=teams)
+
+@bp.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    user = User.query.get(session['user_id'])
+    if request.method == 'POST':
+        if 'update_profile' in request.form:
+            user.first_name = request.form['first_name']
+            user.last_name = request.form['last_name']
+            user.email = request.form['email']
+            db.session.commit()
+            flash('Profile updated successfully', 'success')
+        elif 'change_password' in request.form:
+            if check_password_hash(user.password, request.form['current_password']):
+                if request.form['new_password'] == request.form['confirm_password']:
+                    user.password = generate_password_hash(request.form['new_password'])
+                    db.session.commit()
+                    flash('Password changed successfully', 'success')
+                else:
+                    flash('New passwords do not match', 'error')
+            else:
+                flash('Current password is incorrect', 'error')
+        return redirect(url_for('main.profile'))
+    return render_template('profile.html', user=user)
 
 
 @bp.route('/healthcheck', methods=['GET'])
