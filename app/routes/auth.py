@@ -7,8 +7,10 @@ bp = Blueprint('auth', __name__)
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'user_id' in session:
-        return redirect(url_for('main.dashboard'))
+    if request.method == 'GET':
+        if 'user_id' in session:
+            return redirect(url_for('main.dashboard'))
+        return render_template('login.html')
     if request.method == 'POST':
         data = request.json
         username = data.get('username')
