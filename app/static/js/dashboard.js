@@ -43,6 +43,7 @@ function updateValue(key, value) {
 
 // Function to remove flash messages after they fade out
 document.addEventListener("DOMContentLoaded", function() {
+    setupOutsideClickListener();
     setTimeout(() => {
         const flashes = document.querySelectorAll('.flash-message');
         flashes.forEach(flash => {
@@ -79,12 +80,26 @@ function toggleSidenav() {
 
 function toggleAddForm() {
     const addForm = document.getElementById('add-form');
-    if (addForm.style.display === 'none') {
+    if (addForm.style.display === 'none' || addForm.style.display === '') {
         addForm.style.display = 'block';
     } else {
         addForm.style.display = 'none';
         resetForm();
     }
+}
+
+function setupOutsideClickListener() {
+    const addForm = document.getElementById('add-form');
+    const addIconContainer = document.querySelector('.add-icon-container');
+
+    document.addEventListener('click', function(event) {
+        const isClickInsideForm = addForm.contains(event.target);
+        const isClickOnAddIcon = addIconContainer.contains(event.target);
+
+        if (!isClickInsideForm && !isClickOnAddIcon && addForm.style.display === 'block') {
+            toggleAddForm();
+        }
+    });
 }
 
 function addKeyValue(event) {
