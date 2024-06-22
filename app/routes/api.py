@@ -19,6 +19,11 @@ def get_urls():
 
     # Get personal key-values
     personal_kvs = KeyValue.query.filter_by(user_id=user.id, level='personal').all()
+    
+    if user.is_admin:
+        # For admin, get all team and organization key-values
+        team_kvs = KeyValue.query.filter_by(level='team').all()
+        org_kvs = KeyValue.query.filter_by(level='organization').all()
 
     # Get team key-values if user is in a team
     team_kvs = []

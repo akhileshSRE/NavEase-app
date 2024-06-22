@@ -19,10 +19,17 @@ def dashboard():
         return redirect(url_for('auth.login'))
     
     user = User.query.get(session['user_id'])
-    
+
     personal_key_values = KeyValue.query.filter_by(user_id=user.id, level='personal').all()
-    team_key_values = KeyValue.query.filter_by(team_id=user.team_id, level='team').all()
-    org_key_values = KeyValue.query.filter_by(organization_id=user.organization_id, level='organization').all()
+    
+    if user.is_admin:
+        # For admin, fetch all organization and team key-values
+        org_key_values = KeyValue.query.filter_by(level='organization').all()
+        team_key_values = KeyValue.query.filter_by(level='team').all()
+    else:
+        # For regular users, fetch only their team and organization key-values
+        team_key_values = KeyValue.query.filter_by(team_id=user.team_id, level='team').all()
+        org_key_values = KeyValue.query.filter_by(organization_id=user.organization_id, level='organization').all()
     
     # Fetch organization and team names
     for kv in org_key_values:
