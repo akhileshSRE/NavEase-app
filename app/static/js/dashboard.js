@@ -109,7 +109,7 @@ function addKeyValue(event) {
     const value = document.getElementById('value').value;
     const level = document.getElementById('level').value;
     const organization = document.getElementById('organization').value;
-    const team = document.getElementById('team').value;
+    const teams = Array.from(document.getElementById('teams').selectedOptions).map(option => option.value);
     const submitButton = document.getElementById('add-key-value-btn');
     const buttonText = submitButton.querySelector('.button-text');
     const loadingSpinner = submitButton.querySelector('.loading-spinner');
@@ -123,9 +123,8 @@ function addKeyValue(event) {
     if (level === 'organization') {
         data.organization_id = organization;
     } else if (level === 'team') {
-        data.team_id = team;
+        data.team_ids = teams.length > 0 ? teams : [teams[0]]; // Ensure it's always an array
     }
-    // Note: We don't need to add anything for 'personal' level
 
     fetch('/api/v1/add', {
         method: 'POST',
@@ -143,7 +142,12 @@ function addKeyValue(event) {
     .then(data => {
         alert(data.message);
         // Update the dashboard dynamically
-        updateDashboard(data.newEntry);
+        if (data.newEntry) {
+            updateDashboard(data.newEntry);
+        } else {
+            // If newEntry is not provided, reload the page
+            window.location.reload();
+        }
         // Reset form
         resetForm();
         toggleAddForm();
@@ -175,7 +179,7 @@ function updateDashboard(newEntry) {
     newRow.innerHTML = `
         <td>${newEntry.key}</td>
         <td>${newEntry.value}</td>
-        ${newEntry.level !== 'personal' ? `<td>${newEntry.level === 'organization' ? newEntry.organization_name : newEntry.team_name}</td>` : ''}
+        ${newEntry.level !== 'personal' ? `<td>${newEntry.level === 'organization' ? newEntry.organization_name : newEntry.team_names.join(', ')}</td>` : ''}
         <td>
             <button class="update-button" onclick="updateValue('${newEntry.key}', '${newEntry.value}', '${newEntry.level}')">Update</button>
             <button class="delete-button" onclick="confirmDelete('${newEntry.key}', '${newEntry.level}')">Delete</button>

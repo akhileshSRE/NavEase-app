@@ -43,8 +43,8 @@
         </select>
     </div>
     <div class="mu-form-group">
-        <label for="team">Team:</label>
-        <select id="team" name="team" required class="mu-form-control">
+        <label for="teams">Teams:</label>
+        <select id="teams" name="teams" multiple required class="mu-form-control">
             {% for team in teams %}
                 <option value="{{ team.id }}">{{ team.name }}</option>
             {% endfor %}
@@ -62,7 +62,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Organization</th>
-            <th>Team</th>
+            <th>Teams</th>
         </tr>
     </thead>
     <tbody>
@@ -73,7 +73,13 @@
             <td>{{ user.first_name }}</td>
             <td>{{ user.last_name }}</td>
             <td>{{ user.organization.name if user.organization else 'N/A' }}</td>
-            <td>{{ user.team.name if user.team else 'N/A' }}</td>
+            <td>
+                {% if user.teams %}
+                    {{ user.teams|map(attribute='name')|join(', ') }}
+                {% else %}
+                    N/A
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

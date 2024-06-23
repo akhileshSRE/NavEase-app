@@ -26,9 +26,9 @@ def manage_users():
         last_name = request.form.get('last_name')
         password = request.form.get('password')
         organization_id = request.form.get('organization')
-        team_id = request.form.get('team')
+        team_ids = request.form.getlist('teams')
         
-        if not all([username, email, first_name, last_name, password, organization_id, team_id]):
+        if not all([username, email, first_name, last_name, password, organization_id]):
             flash('All fields are required.', 'error')
         else:
             user = User(
@@ -37,9 +37,12 @@ def manage_users():
                 first_name=first_name,
                 last_name=last_name,
                 password=generate_password_hash(password),
-                organization_id=organization_id,
-                team_id=team_id
+                organization_id=organization_id
             )
+            for team_id in team_ids:
+                team = Team.query.get(team_id)
+                if team:
+                    user.teams.append(team)
             db.session.add(user)
             db.session.commit()
             flash('User added successfully.', 'success')
