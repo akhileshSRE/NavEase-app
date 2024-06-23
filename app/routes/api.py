@@ -130,15 +130,15 @@ def add_url():
     
     except IntegrityError as e:
         db.session.rollback()
-        logger.error(f"IntegrityError: {str(e)}")
+        logging.error(f"IntegrityError: {str(e)}")
         if "UNIQUE constraint failed" in str(e):
             return jsonify({"error": "This key already exists for the selected level and entity."}), 409
         return jsonify({"error": "An error occurred while saving the key-value pair."}), 409
     except SQLAlchemyError as e:
         db.session.rollback()
-        logger.error(f"SQLAlchemyError: {str(e)}")
+        logging.error(f"SQLAlchemyError: {str(e)}")
         return jsonify({"error": "An error occurred while saving the key-value pair"}), 500
     except Exception as e:
         db.session.rollback()
-        logger.error(f"Unexpected error: {str(e)}")
+        logging.error(f"Unexpected error: {str(e)}")
         return jsonify({"error": "An unexpected error occurred"}), 500
