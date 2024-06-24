@@ -20,32 +20,66 @@ def settings():
 @admin_required
 def manage_users():
     if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        first_name = request.form.get('first_name')
-        last_name = request.form.get('last_name')
-        password = request.form.get('password')
-        organization_id = request.form.get('organization')
-        team_ids = request.form.getlist('teams')
+        action = request.form.get('action')
         
-        if not all([username, email, first_name, last_name, password, organization_id]):
-            flash('All fields are required.', 'error')
-        else:
-            user = User(
-                username=username,
-                email=email,
-                first_name=first_name,
-                last_name=last_name,
-                password=generate_password_hash(password),
-                organization_id=organization_id
-            )
-            for team_id in team_ids:
-                team = Team.query.get(team_id)
-                if team:
-                    user.teams.append(team)
-            db.session.add(user)
-            db.session.commit()
-            flash('User added successfully.', 'success')
+        if action == 'add':
+            username = request.form.get('username')
+            email = request.form.get('email')
+            first_name = request.form.get('first_name')
+            last_name = request.form.get('last_name')
+            password = request.form.get('password')
+            organization_id = request.form.get('organization')
+            team_ids = request.form.getlist('teams')
+            
+            if not all([username, email, first_name, last_name, password, organization_id]):
+                flash('All fields are required.', 'error')
+            else:
+                user = User(
+                    username=username,
+                    email=email,
+                    first_name=first_name,
+                    last_name=last_name,
+                    password=generate_password_hash(password),
+                    organization_id=organization_id
+                )
+                for team_id in team_ids:
+                    team = Team.query.get(team_id)
+                    if team:
+                        user.teams.append(team)
+                db.session.add(user)
+                db.session.commit()
+                flash('User added successfully.', 'success')
+        
+        elif action == 'update_org':
+            user_id = request.form.get('user_id')
+            organization_id = request.form.get('organization')
+            user = User.query.get(user_id)
+            if user:
+                user.organization_id = organization_id
+                db.session.commit()
+                flash('User organization updated successfully.', 'success')
+        
+        elif action == 'update_teams':
+            user_id = request.form.get('user_id')
+            team_ids = request.form.getlist('teams')
+            user = User.query.get(user_id)
+            if user:
+                user.teams = []
+                for team_id in team_ids:
+                    team = Team.query.get(team_id)
+                    if team:
+                        user.teams.append(team)
+                db.session.commit()
+                flash('User teams updated successfully.', 'success')
+        
+        elif action == 'delete':
+            user_id = request.form.get('user_id')
+            user = User.query.get(user_id)
+            if user:
+                db.session.delete(user)
+                db.session.commit()
+                flash('User deleted successfully.', 'success')
+        
         return redirect(url_for('settings.manage_users'))
 
     users = User.query.all()

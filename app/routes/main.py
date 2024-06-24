@@ -93,6 +93,9 @@ def profile():
             else:
                 flash('Current password is incorrect', 'error')
         return redirect(url_for('main.profile'))
+    
+    # Ensure the user's organization and teams are loaded
+    user = User.query.options(db.joinedload(User.organization), db.joinedload(User.teams)).get(session['user_id'])
     return render_template('profile.html', user=user)
 
 

@@ -12,6 +12,17 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
+    
+    <h2>User Information</h2>
+    <p><strong>Organization:</strong> {{ user.organization.name if user.organization else 'Not assigned' }}</p>
+    <p><strong>Teams:</strong> 
+        {% if user.teams %}
+            {{ user.teams|map(attribute='name')|join(', ') }}
+        {% else %}
+            Not assigned to any team
+        {% endif %}
+    </p>
+
     <form method="POST">
         <h2>Update Profile</h2>
         <div class="form-group">
