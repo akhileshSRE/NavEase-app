@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="st-container">
+    <nav class="st-sidenav">
+        <ul>
+            <li><a href="{{ url_for('settings.manage_users') }}">Manage Users</a></li>
+            <li><a href="{{ url_for('settings.manage_organizations') }}">Manage Organizations</a></li>
+            <li><a href="{{ url_for('settings.manage_teams') }}">Manage Teams</a></li>
+        </ul>
+    </nav>
+    <div class="st-main-content">
+        {% block settings_content %}{% endblock %}
+    </div>
+</div>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+{% endblock %}
