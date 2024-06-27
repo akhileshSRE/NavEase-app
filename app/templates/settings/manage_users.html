@@ -14,7 +14,42 @@
 {% endwith %}
 
 <form method="POST" action="{{ url_for('settings.manage_users') }}" class="mu-user-form">
-    <!-- ... (existing form fields) ... -->
+    <div class="mu-form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required class="mu-form-control">
+    </div>
+    <div class="mu-form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required class="mu-form-control">
+    </div>
+    <div class="mu-form-group">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required class="mu-form-control">
+    </div>
+    <div class="mu-form-group">
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required class="mu-form-control">
+    </div>
+    <div class="mu-form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required class="mu-form-control">
+    </div>
+    <div class="mu-form-group">
+        <label for="organization">Organization:</label>
+        <select id="organization" name="organization" required class="mu-form-control">
+            {% for org in organizations %}
+                <option value="{{ org.id }}">{{ org.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mu-form-group">
+        <label for="teams">Teams:</label>
+        <select id="teams" name="teams" multiple required class="mu-form-control">
+            {% for team in teams %}
+                <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <button type="submit" name="action" value="add" class="mu-btn mu-btn-primary">Add User</button>
 </form>
 
