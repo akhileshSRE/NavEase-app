@@ -44,15 +44,15 @@ function updateValue(key, value) {
 
 function filterTable() {
     const input = document.getElementById('search-input').value.toUpperCase();
-    const tables = document.querySelectorAll('.dashboard-table tbody');
+    const tables = document.querySelectorAll('table tbody');
     tables.forEach(table => {
         const rows = table.getElementsByTagName('tr');
         Array.from(rows).forEach(row => {
             const cells = row.getElementsByTagName('td');
-            if (cells[0].innerText.toUpperCase().indexOf(input) > -1) {
-                row.style.display = '';
+            if (cells.length > 0 && cells[0].innerText.toUpperCase().indexOf(input) > -1) {
+                row.classList.remove('hidden');
             } else {
-                row.style.display = 'none';
+                row.classList.add('hidden');
             }
         });
     });
@@ -101,23 +101,23 @@ function toggleSidenav() {
 
 function toggleAddForm() {
     const addForm = document.getElementById('add-form');
-    if (addForm.style.display === 'none' || addForm.style.display === '') {
-        addForm.style.display = 'block';
+    if (addForm.classList.contains('hidden')) {
+        addForm.classList.remove('hidden');
     } else {
-        addForm.style.display = 'none';
+        addForm.classList.add('hidden');
         resetForm();
     }
 }
 
 function setupOutsideClickListener() {
     const addForm = document.getElementById('add-form');
-    const addIconContainer = document.querySelector('.add-icon-container');
+    const addIconContainer = document.querySelector('.fixed.bottom-5.right-5');
 
     document.addEventListener('click', function(event) {
         const isClickInsideForm = addForm.contains(event.target);
         const isClickOnAddIcon = addIconContainer.contains(event.target);
 
-        if (!isClickInsideForm && !isClickOnAddIcon && addForm.style.display === 'block') {
+        if (!isClickInsideForm && !isClickOnAddIcon && !addForm.classList.contains('hidden')) {
             toggleAddForm();
         }
     });
@@ -129,22 +129,22 @@ function addKeyValue(event) {
     const key = document.getElementById('key').value;
     const value = document.getElementById('value').value;
     const level = document.getElementById('level').value;
-    const organization = document.getElementById('organization').value;
-    const teams = Array.from(document.getElementById('teams').selectedOptions).map(option => option.value);
+    const organization = document.getElementById('organization')?.value;
+    const teams = Array.from(document.getElementById('teams')?.selectedOptions || []).map(option => option.value);
     const submitButton = document.getElementById('add-key-value-btn');
     const buttonText = submitButton.querySelector('.button-text');
-    const loadingSpinner = submitButton.querySelector('.loading-spinner');
+    const loadingSpinner = submitButton.querySelector('.hidden');
 
     // Show loading state
-    buttonText.style.display = 'none';
-    loadingSpinner.style.display = 'inline-block';
+    buttonText.classList.add('hidden');
+    loadingSpinner.classList.remove('hidden');
     submitButton.disabled = true;
 
     const data = { key, value, level };
     if (level === 'organization') {
         data.organization_id = organization;
     } else if (level === 'team') {
-        data.team_ids = teams.length > 0 ? teams : [teams[0]]; // Ensure it's always an array
+        data.team_ids = teams;
     }
 
     fetch('/api/v1/add', {
@@ -170,7 +170,7 @@ function addKeyValue(event) {
             window.location.reload();
         }
         // Reset form
-        resetForm();
+        document.getElementById('add-form').reset();
         toggleAddForm();
     })
     .catch(error => {
@@ -179,16 +179,10 @@ function addKeyValue(event) {
     })
     .finally(() => {
         // Reset button state
-        buttonText.style.display = 'inline-block';
-        loadingSpinner.style.display = 'none';
+        buttonText.classList.remove('hidden');
+        loadingSpinner.classList.add('hidden');
         submitButton.disabled = false;
     });
-}
-
-function resetForm() {
-    document.getElementById('add-form').reset();
-    document.getElementById('level').value = 'personal';
-    toggleOrganizationTeamSelect();
 }
 
 function updateDashboard(newEntry) {
@@ -198,14 +192,21 @@ function updateDashboard(newEntry) {
     const newRow = table.insertRow();
     
     newRow.innerHTML = `
-        <td>${newEntry.key}</td>
-        <td>${newEntry.value}</td>
-        ${newEntry.level !== 'personal' ? `<td>${newEntry.level === 'organization' ? newEntry.organization_name : newEntry.team_names.join(', ')}</td>` : ''}
-        <td>
-            <button class="update-button" onclick="updateValue('${newEntry.key}', '${newEntry.value}', '${newEntry.level}')">Update</button>
-            <button class="delete-button" onclick="confirmDelete('${newEntry.key}', '${newEntry.level}')">Delete</button>
+        <td class="border border-gray-300 p-2">${newEntry.key}</td>
+        <td class="border border-gray-300 p-2">${newEntry.value}</td>
+        ${newEntry.level !== 'personal' ? `<td class="border border-gray-300 p-2">${newEntry.level === 'organization' ? newEntry.organization_name : newEntry.team_names.join(', ')}</td>` : ''}
+        <td class="border border-gray-300 p-2">
+            <button class="bg-yellow-500 text-white px-2 py-1 rounded text-sm hover:bg-yellow-600 transition-colors" onclick="updateValue('${newEntry.key}', '${newEntry.value}')">Update</button>
+            <button class="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600 transition-colors ml-2" onclick="confirmDelete('${newEntry.key}')">Delete</button>
         </td>
     `;
+}
+
+function resetForm() {
+    const form = document.getElementById('add-form');
+    form.reset();
+    document.getElementById('level').value = 'personal';
+    toggleOrganizationTeamSelect();
 }
 
 function toggleOrganizationTeamSelect() {
@@ -213,6 +214,6 @@ function toggleOrganizationTeamSelect() {
     const orgSelect = document.getElementById('organization-select');
     const teamSelect = document.getElementById('team-select');
     
-    orgSelect.style.display = level === 'organization' ? 'block' : 'none';
-    teamSelect.style.display = level === 'team' ? 'block' : 'none';
+    orgSelect.classList.toggle('hidden', level !== 'organization');
+    teamSelect.classList.toggle('hidden', level !== 'team');
 }
