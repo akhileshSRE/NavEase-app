@@ -41,16 +41,6 @@ function updateValue(key, value) {
     }
 }
 
-// Function to remove flash messages after they fade out
-document.addEventListener("DOMContentLoaded", function() {
-    setupOutsideClickListener();
-    setTimeout(() => {
-        const flashes = document.querySelectorAll('.flash-message');
-        flashes.forEach(flash => {
-            flash.style.display = 'none';
-        });
-    }, 5000); // Match the duration of the fadeOut animation
-});
 
 function filterTable() {
     const input = document.getElementById('search-input').value.toUpperCase();
@@ -68,15 +58,46 @@ function filterTable() {
     });
 }
 
-function toggleSidenav() {
-    const sidenav = document.querySelector('.sidenav');
-    const mainContent = document.querySelector('.main-content');
-    const toggleBtn = document.querySelector('.toggle-btn');
+document.addEventListener("DOMContentLoaded", function() {
+    // Sidenav initialization
+    const sidenav = document.getElementById('sidenav');
+    const mainContent = document.getElementById('mainContent');
 
-    sidenav.classList.toggle('active');
-    mainContent.classList.toggle('sidenav-active');
-    toggleBtn.classList.toggle('active');
+    // Ensure initial state of sidenav
+    sidenav.classList.add('w-[60px]');
+    mainContent.classList.add('ml-[60px]', 'w-[calc(100%-60px)]');
+
+    // Setup outside click listener
+    setupOutsideClickListener();
+
+    // Remove flash messages after they fade out
+    setTimeout(() => {
+        const flashes = document.querySelectorAll('.flash-message');
+        flashes.forEach(flash => {
+            flash.style.display = 'none';
+        });
+    }, 5000); // Match the duration of the fadeOut animation
+});
+
+function toggleSidenav() {
+    const sidenav = document.getElementById('sidenav');
+    const mainContent = document.getElementById('mainContent');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    sidenav.classList.toggle('w-[200px]');
+    mainContent.classList.toggle('ml-[200px]');
+    mainContent.classList.toggle('w-[calc(100%-200px)]');
+
+    const sidenavItems = sidenav.querySelectorAll('a span');
+    sidenavItems.forEach(item => {
+        item.classList.toggle('opacity-100');
+        item.classList.toggle('hidden');
+    });
+
+    // Rotate the toggle button icon
+    toggleBtn.querySelector('i').classList.toggle('fa-rotate-90');
 }
+
 
 function toggleAddForm() {
     const addForm = document.getElementById('add-form');
