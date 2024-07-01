@@ -10,8 +10,10 @@
    <body class="font-sans bg-white flex justify-center items-center h-screen m-0 overflow-hidden">
       <nav class="fixed top-0 left-0 right-0 h-16 bg-gray-300 flex items-center justify-between px-5 z-30">
          <div class="flex items-center w-full justify-between">
-            <img class="w-12" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
-            <a href="#" class="text-gray-800 text-sm font-normal no-underline">Keyword-based URL Redirection</a>
+            <a href="{{ url_for('main.dashboard') }}">
+                <img class="w-12" src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            </a>
+            <a href="{{ url_for('main.dashboard') }}" class="text-gray-800 text-sm font-normal no-underline">Keyword-based URL Redirection</a>
             <div class="pr-5">
                <form action="{{ url_for('auth.logout') }}" style="display: inline;">
                   <button type="submit" class="rounded-full px-4 py-2 text-gray-800 font-normal border border-gray-800 bg-gray-300 transition duration-300 hover:shadow-lg">Logout</button>
