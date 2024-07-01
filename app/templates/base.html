@@ -40,7 +40,7 @@
             <span class="ml-2.5 opacity-0 transition-opacity duration-300 ease-in-out hidden">Dashboard</span>
             </a>
             {% if user.is_admin %}
-            <a href="{{ url_for('settings.settings') }}" class="py-3.5 px-5 text-base text-gray-700 flex items-center w-full justify-center hover:bg-gray-200 mb-2">
+            <a href="{{ url_for('settings.manage_users') }}" class="py-3.5 px-5 text-base text-gray-700 flex items-center w-full justify-center hover:bg-gray-200 mb-2">
             <i class="fas fa-cog"></i>
             <span class="ml-2.5 opacity-0 transition-opacity duration-300 ease-in-out hidden">Settings</span>
             </a>
