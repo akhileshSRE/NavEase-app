@@ -7,7 +7,7 @@
       <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
       <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
    </head>
-   <body class="font-sans bg-white flex justify-center items-center h-screen m-0 overflow-hidden">
+   <body class="font-sans bg-white m-0 overflow-x-hidden">
       <nav class="fixed top-0 left-0 right-0 h-16 bg-gray-300 flex items-center justify-between px-5 z-30">
          <div class="flex items-center w-full justify-between">
             <a href="{{ url_for('main.dashboard') }}">
@@ -21,7 +21,7 @@
             </div>
          </div>
       </nav>
-      <div class="h-[calc(100%-64px)] w-[60px] fixed z-20 top-16 left-0 bg-gray-100 overflow-x-hidden transition-all duration-300 ease-in-out flex flex-col items-center" id="sidenav">
+      <div class="h-[calc(100vh-4rem)] w-[60px] fixed z-20 top-16 left-0 bg-gray-100 overflow-x-hidden transition-all duration-300 ease-in-out flex flex-col items-center" id="sidenav">
          <!-- Toggle button -->
          <button id="toggleBtn" class="w-full p-4 text-gray-700 hover:bg-gray-200 focus:outline-none transition-all duration-300 ease-in-out" onclick="toggleSidenav()">
          <i class="fas fa-bars"></i>
@@ -50,9 +50,7 @@
          </div>
       </div>
       <div class="ml-[60px] pt-16 transition-all duration-300 ease-in-out w-[calc(100%-60px)] min-h-screen bg-white" id="mainContent">
-         <div class="p-6">
             {% block content %}{% endblock %}
-         </div>
       </div>
    </body>
 </html>
