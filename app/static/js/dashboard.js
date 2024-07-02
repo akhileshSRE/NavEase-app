@@ -130,7 +130,7 @@ function addKeyValue(event) {
     const value = document.getElementById('value').value;
     const level = document.getElementById('level').value;
     const organization = document.getElementById('organization')?.value;
-    const teams = Array.from(document.getElementById('teams')?.selectedOptions || []).map(option => option.value);
+    const teams = Array.from(document.querySelectorAll('input[name="teams"]:checked')).map(checkbox => checkbox.value);
     const submitButton = document.getElementById('add-key-value-btn');
     const buttonText = submitButton.querySelector('.button-text');
     const loadingSpinner = submitButton.querySelector('.hidden');

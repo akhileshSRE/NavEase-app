@@ -157,12 +157,15 @@
         </select>
     </div>
     <div class="mb-4 hidden" id="team-select">
-        <label for="teams" class="block font-bold mb-2 text-gray-700">Teams:</label>
-        <select id="teams" name="teams" multiple class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all duration-200">
+        <label class="block font-bold mb-2 text-gray-700">Teams:</label>
+        <div class="max-h-48 overflow-y-auto border border-gray-300 rounded bg-gray-100 p-2">
             {% for team in teams %}
-                <option value="{{ team.id }}">{{ team.name }}</option>
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="team_{{ team.id }}" name="teams" value="{{ team.id }}" class="form-checkbox h-5 w-5 text-indigo-600 transition duration-150 ease-in-out">
+                    <label for="team_{{ team.id }}" class="ml-2 text-sm text-gray-700">{{ team.name }}</label>
+                </div>
             {% endfor %}
-        </select>
+        </div>
     </div>
     <div class="flex justify-center space-x-4 mt-6">
         <button type="submit" id="add-key-value-btn" class="bg-gradient-to-r from-green-400 to-green-600 text-white px-8 py-3 rounded-full text-base font-semibold cursor-pointer hover:from-green-500 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
