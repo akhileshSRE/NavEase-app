@@ -192,10 +192,10 @@ function updateDashboard(newEntry) {
     const newRow = table.insertRow();
     
     newRow.innerHTML = `
-        <td class="border border-gray-300 p-2">${newEntry.key}</td>
-        <td class="border border-gray-300 p-2">${newEntry.value}</td>
-        ${newEntry.level !== 'personal' ? `<td class="border border-gray-300 p-2">${newEntry.level === 'organization' ? newEntry.organization_name : newEntry.team_names.join(', ')}</td>` : ''}
-        <td class="border border-gray-300 p-2">
+        <td class="border-b border-gray-200 p-2">${newEntry.key}</td>
+        <td class="border-b border-gray-200 p-2">${newEntry.value}</td>
+        ${newEntry.level !== 'personal' ? `<td class="border-b border-gray-200 p-2">${newEntry.level === 'organization' ? newEntry.organization_name : newEntry.team_names.join(', ')}</td>` : ''}
+        <td class="border-b border-gray-200 p-2">
             <button class="bg-yellow-500 text-white px-2 py-1 rounded text-sm hover:bg-yellow-600 transition-colors" onclick="updateValue('${newEntry.key}', '${newEntry.value}')">Update</button>
             <button class="bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600 transition-colors ml-2" onclick="confirmDelete('${newEntry.key}')">Delete</button>
         </td>
