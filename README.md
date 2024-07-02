@@ -28,7 +28,7 @@ docker build -t navease-app .
 ```
 - Run below docker command to install (You can setup same on Kubernetes as well)
 ```
-docker run --name navease-app -d -it  -e 'SECRET_KEY=some_secret' -v /usr/local/data/:/app/instance/ akhileshsre/navease-app:latest
+docker run --name navease-app -d -it  -e 'SECRET_KEY=some_secret' -p 8080:8080 -v /usr/local/data/:/app/instance/ akhileshsre/navease-app:latest
 ```
 - Configure endpoint for the hosted Navease application, in this case
 
