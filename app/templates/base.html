@@ -21,34 +21,45 @@
             </div>
          </div>
       </nav>
-      <div class="h-[calc(100vh-4rem)] w-[60px] fixed z-20 top-16 left-0 bg-gray-100 overflow-x-hidden transition-all duration-300 ease-in-out flex flex-col items-center" id="sidenav">
-         <!-- Toggle button -->
-         <button id="toggleBtn" class="w-full p-4 text-gray-700 hover:bg-gray-200 focus:outline-none transition-all duration-300 ease-in-out" onclick="toggleSidenav()">
-         <i class="fas fa-bars"></i>
-         </button>
-         <div class="flex flex-col items-center w-full mt-4">
-            <!-- Profile section -->
-            <a href="{{ url_for('main.profile') }}" class="flex flex-col items-center mb-5 w-full">
-               <div class="w-10 h-10 rounded-full bg-red-500 text-white font-bold flex justify-center items-center">
-                  {{ user.first_name[0] }}
-               </div>
-               <span class="mt-2 font-bold text-sm opacity-0 transition-opacity duration-300 ease-in-out hidden">
-               {{ user.first_name }} {{ user.last_name }}
-               </span>
-            </a>
-            <!-- Navigation links -->
-            <a href="{{ url_for('main.dashboard') }}" class="py-3.5 px-5 text-base text-gray-700 flex items-center w-full justify-center hover:bg-gray-200 mb-2">
-            <i class="fas fa-tachometer-alt"></i>
-            <span class="ml-2.5 opacity-0 transition-opacity duration-300 ease-in-out hidden">Dashboard</span>
-            </a>
-            {% if user.is_admin %}
-            <a href="{{ url_for('settings.manage_users') }}" class="py-3.5 px-5 text-base text-gray-700 flex items-center w-full justify-center hover:bg-gray-200 mb-2">
-            <i class="fas fa-cog"></i>
-            <span class="ml-2.5 opacity-0 transition-opacity duration-300 ease-in-out hidden">Settings</span>
-            </a>
-            {% endif %}
-         </div>
-      </div>
+      <div class="h-[calc(100vh-4rem)] w-[60px] fixed z-20 top-16 left-0 bg-gray-100 overflow-x-hidden transition-all duration-300 ease-in-out flex flex-col justify-between" id="sidenav">
+        <!-- Toggle button -->
+        <div class="flex flex-col items-center w-full">
+           <button id="toggleBtn" class="w-full p-4 text-gray-700 hover:bg-gray-200 focus:outline-none transition-all duration-300 ease-in-out" onclick="toggleSidenav()">
+              <i class="fas fa-bars"></i>
+           </button>
+           <!-- Navigation links -->
+           <a href="{{ url_for('main.dashboard') }}" class="py-3.5 px-5 text-base text-gray-700 flex items-center w-full hover:bg-gray-200 mb-2">
+              <div class="w-6 flex justify-center">
+                 <i class="fas fa-tachometer-alt"></i>
+              </div>
+              <span class="ml-4 opacity-0 transition-opacity duration-300 ease-in-out hidden whitespace-nowrap">Dashboard</span>
+           </a>
+           {% if user.is_admin %}
+           <a href="{{ url_for('settings.manage_users') }}" class="py-3.5 px-5 text-base text-gray-700 flex items-center w-full hover:bg-gray-200 mb-2">
+              <div class="w-6 flex justify-center">
+                 <i class="fas fa-cog"></i>
+              </div>
+              <span class="ml-4 opacity-0 transition-opacity duration-300 ease-in-out hidden whitespace-nowrap">Settings</span>
+           </a>
+           {% endif %}
+        </div>
+        
+        <!-- Profile section -->
+        <div class="w-full">
+           <hr class="border-t border-gray-300 w-full mb-4">
+           <a href="{{ url_for('main.profile') }}" class="flex flex-col items-center mb-5 w-full">
+              <div class="w-10 h-10 rounded-full bg-red-500 text-white font-bold flex justify-center items-center">
+                 {{ user.first_name[0] }}
+              </div>
+              <span class="mt-2 font-bold text-sm opacity-0 transition-opacity duration-300 ease-in-out hidden text-center">
+                 {{ user.first_name }} {{ user.last_name }}
+              </span>
+              <span class="mt-1 text-xs text-gray-600 opacity-0 transition-opacity duration-300 ease-in-out hidden text-center">
+                 {{ user.email }}
+              </span>
+           </a>
+        </div>
+     </div>
       <div class="ml-[60px] pt-16 transition-all duration-300 ease-in-out w-[calc(100%-60px)] min-h-screen bg-white" id="mainContent">
             {% block content %}{% endblock %}
       </div>
