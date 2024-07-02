@@ -14,8 +14,13 @@
                 {% endif %}
             {% endwith %}
         </div>
-        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 my-6">
-            <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()" class="w-full p-3 border-2 border-gray-300 rounded-full text-base bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white shadow-md transition-all duration-300">
+        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 my-6 relative">
+            <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()" class="w-full p-3 pl-10 border-2 border-gray-300 rounded-full text-base bg-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 shadow-md transition-all duration-300">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </div>
         </div>
     </div>
 
@@ -24,23 +29,25 @@
             <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Organization Level</h2>
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse mb-6 shadow-lg rounded-lg overflow-hidden" id="organization-table">
-                    <thead class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white">
+                    <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
                         <tr>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10 w-auto">Key</th>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10 max-w-xs">URL</th>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10">Organization</th>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10">Actions</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10 w-auto">Key</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10 max-w-xs">URL</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10">Organization</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for kv in org_key_values %}
                         <tr class="even:bg-gray-50 hover:bg-indigo-50 transition-colors duration-200">
-                            <td class="border border-gray-300 p-3 w-auto">{{ kv.key }}</td>
-                            <td class="border border-gray-300 p-3 max-w-xs break-words">{{ kv.value }}</td>
-                            <td class="border border-gray-300 p-3">{{ kv.org_name }}</td>
-                            <td class="border border-gray-300 p-3">
-                                <button class="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-yellow-600 transition-colors duration-200 shadow-md hover:shadow-lg" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
-                                <button class="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg ml-2" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                            <td class="border-b border-gray-200 p-3 w-auto">{{ kv.key }}</td>
+                            <td class="border-b border-gray-200 p-3 max-w-xs break-words">
+                                <a href="{{ kv.value }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline">{{ kv.value }}</a>
+                            </td>
+                            <td class="border-b border-gray-200 p-3">{{ kv.org_name }}</td>
+                            <td class="border-b border-gray-200 p-3">
+                                <button class="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-yellow-600 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                                <button class="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg ml-2 focus:outline-none focus:ring-2 focus:ring-red-400" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
                             </td>
                         </tr>
                         {% endfor %}
@@ -53,28 +60,30 @@
             <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Team Level</h2>
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse mb-6 shadow-lg rounded-lg overflow-hidden" id="team-table">
-                    <thead class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white">
+                    <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
                         <tr>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10 w-auto">Key</th>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10 max-w-xs">URL</th>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10">Teams</th>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10">Actions</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10 w-auto">Key</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10 max-w-xs">URL</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10">Teams</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for kv in team_key_values %}
                         <tr class="even:bg-gray-50 hover:bg-indigo-50 transition-colors duration-200">
-                            <td class="border border-gray-300 p-3 w-auto">{{ kv.key }}</td>
-                            <td class="border border-gray-300 p-3 max-w-xs break-words">{{ kv.value }}</td>
-                            <td class="border border-gray-300 p-3">
+                            <td class="border-b border-gray-200 p-3 w-auto">{{ kv.key }}</td>
+                            <td class="border-b border-gray-200 p-3 max-w-xs break-words">
+                                <a href="{{ kv.value }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline">{{ kv.value }}</a>
+                            </td>
+                            <td class="border-b border-gray-200 p-3">
                                 {{ kv.team_names }}
                                 {% if not kv.team_names %}
-                                    <span class="text-gray-500 italic">(No teams)</span>
+                                    <span class="text-gray-200 italic">(No teams)</span>
                                 {% endif %}
                             </td>
-                            <td class="border border-gray-300 p-3">
-                                <button class="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-yellow-600 transition-colors duration-200 shadow-md hover:shadow-lg" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
-                                <button class="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg ml-2" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                            <td class="border-b border-gray-200 p-3">
+                                <button class="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-yellow-600 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                                <button class="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg ml-2 focus:outline-none focus:ring-2 focus:ring-red-400" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
                             </td>
                         </tr>
                         {% endfor %}
@@ -87,21 +96,23 @@
             <h2 class="text-2xl font-semibold mb-4 text-indigo-700">Personal Level</h2>
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse mb-6 shadow-lg rounded-lg overflow-hidden" id="personal-table">
-                    <thead class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white">
+                    <thead class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
                         <tr>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10 w-auto">Key</th>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10 max-w-xs">URL</th>
-                            <th class="border border-gray-300 p-3 text-left font-bold sticky top-0 z-10">Actions</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10 w-auto">Key</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10 max-w-xs">URL</th>
+                            <th class="border-b border-indigo-400 p-3 text-left font-bold sticky top-0 z-10">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for kv in personal_key_values %}
                         <tr class="even:bg-gray-50 hover:bg-indigo-50 transition-colors duration-200">
-                            <td class="border border-gray-300 p-3 w-auto">{{ kv.key }}</td>
-                            <td class="border border-gray-300 p-3 max-w-xs break-words">{{ kv.value }}</td>
-                            <td class="border border-gray-300 p-3">
-                                <button class="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-yellow-600 transition-colors duration-200 shadow-md hover:shadow-lg" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
-                                <button class="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg ml-2" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                            <td class="border-b border-gray-300 p-3 w-auto">{{ kv.key }}</td>
+                            <td class="border-b border-gray-200 p-3 max-w-xs break-words">
+                                <a href="{{ kv.value }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline">{{ kv.value }}</a>
+                            </td>
+                            <td class="border-b border-gray-200 p-3">
+                                <button class="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-yellow-600 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                                <button class="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg ml-2 focus:outline-none focus:ring-2 focus:ring-red-400" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
                             </td>
                         </tr>
                         {% endfor %}
@@ -112,24 +123,26 @@
     </div>
 </div>
 
-<div class="fixed bottom-5 right-5 z-50">
-    <span class="text-5xl text-green-600 cursor-pointer bg-white border border-gray-300 rounded-full shadow-lg hover:scale-110 transition-transform duration-200" onclick="toggleAddForm()">
-        <i class="fas fa-plus-circle"></i>
+<div class="fixed bottom-5 right-5 z-50 group">
+    <span class="text-5xl text-green-600 cursor-pointer bg-white border-2 border-green-600 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center w-16 h-16" onclick="toggleAddForm()">
+        <i class="fas fa-plus"></i>
     </span>
+    <span class="absolute bottom-full right-0 mb-2 bg-green-600 text-white px-3 py-1 rounded-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">Add New</span>
 </div>
 
 <form class="fixed w-11/12 md:w-2/3 lg:w-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-8 border border-gray-300 rounded-lg shadow-2xl hidden" id="add-form" onsubmit="addKeyValue(event)">
+    <h2 class="text-2xl font-bold mb-6 text-center text-indigo-700">Add New Key-Value Pair</h2>
     <div class="mb-4">
         <label for="key" class="block font-bold mb-2 text-gray-700">Key:</label>
-        <input type="text" id="key" name="key" required class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all duration-200">
+        <input type="text" id="key" name="key" required class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200">
     </div>
     <div class="mb-4">
         <label for="value" class="block font-bold mb-2 text-gray-700">URL:</label>
-        <input type="text" id="value" name="value" required class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all duration-200">
+        <input type="text" id="value" name="value" required class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200">
     </div>
     <div class="mb-4">
         <label for="level" class="block font-bold mb-2 text-gray-700">Level:</label>
-        <select id="level" name="level" required onchange="toggleOrganizationTeamSelect()" class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all duration-200">
+        <select id="level" name="level" required onchange="toggleOrganizationTeamSelect()" class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200">
             <option value="personal">Personal</option>
             <option value="team">Team</option>
             <option value="organization">Organization</option>
