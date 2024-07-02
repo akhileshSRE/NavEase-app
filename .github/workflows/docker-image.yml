@@ -34,4 +34,6 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: akhileshsre/navease-app:${{ env.TAG }}
+        tags: |
+          akhileshsre/navease-app:${{ env.TAG }}
+          akhileshsre/navease-app:latest
