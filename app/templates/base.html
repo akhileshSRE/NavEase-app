@@ -48,9 +48,12 @@
         <div class="w-full">
            <hr class="border-t border-gray-300 w-full mb-4">
            <a href="{{ url_for('main.profile') }}" class="flex flex-col items-center mb-5 w-full">
-              <div class="w-10 h-10 rounded-full bg-red-500 text-white font-bold flex justify-center items-center">
-                 {{ user.first_name[0] }}
-              </div>
+            <div class="relative">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold flex justify-center items-center shadow-md group-hover:shadow-lg transition-all duration-300">
+                   {{ user.first_name[0] }}
+                </div>
+                <div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+             </div>
               <span class="mt-2 font-bold text-sm opacity-0 transition-opacity duration-300 ease-in-out hidden text-center">
                  {{ user.first_name }} {{ user.last_name }}
               </span>
