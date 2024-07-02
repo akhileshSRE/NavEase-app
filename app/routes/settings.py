@@ -109,16 +109,30 @@ def manage_organizations():
 @admin_required
 def manage_teams():
     if request.method == 'POST':
-        name = request.form.get('name')
-        organization_id = request.form.get('organization')
+        action = request.form.get('action')
         
-        if not all([name, organization_id]):
-            flash('All fields are required.', 'error')
-        else:
-            team = Team(name=name, organization_id=organization_id)
-            db.session.add(team)
-            db.session.commit()
-            flash('Team added successfully.', 'success')
+        if action == 'add':
+            name = request.form.get('name')
+            organization_id = request.form.get('organization')
+            
+            if not all([name, organization_id]):
+                flash('All fields are required.', 'error')
+            else:
+                team = Team(name=name, organization_id=organization_id)
+                db.session.add(team)
+                db.session.commit()
+                flash('Team added successfully.', 'success')
+        
+        elif action == 'delete':
+            team_id = request.form.get('team_id')
+            team = Team.query.get(team_id)
+            if team:
+                db.session.delete(team)
+                db.session.commit()
+                flash('Team deleted successfully.', 'success')
+            else:
+                flash('Team not found.', 'error')
+        
         return redirect(url_for('settings.manage_teams'))
 
     teams = Team.query.all()
