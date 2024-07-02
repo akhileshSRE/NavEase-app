@@ -1,0 +1,24 @@
+{% extends "settings_base.html" %}
+
+{% block settings_content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Manage Organizations</h1>
+    <form method="POST" class="mb-8">
+        <div class="flex">
+            <input type="text" name="name" placeholder="Organization Name" required 
+                   class="flex-grow mr-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" 
+                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
+                Add Organization
+            </button>
+        </div>
+    </form>
+    <ul class="bg-white shadow-md rounded-lg overflow-hidden">
+        {% for organization in organizations %}
+            <li class="px-6 py-4 {% if not loop.last %}border-b border-gray-200{% endif %}">
+                {{ organization.name }}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

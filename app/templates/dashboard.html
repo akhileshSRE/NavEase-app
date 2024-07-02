@@ -1,80 +1,188 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <img class="navbar-logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="User Icon">
-            <a href="#" class="navbar-brand">Keyword-based URL Redirection</a>
-            <div class="button-container">
-                <form action="{{ url_for('auth.logout') }}" style="display: inline;">
-                    <button type="submit" class="logout-nav-button btn default">Logout</button>
-                </form>
-            </div>
-        </div>
-    </nav>
-    <div class="main-content">
-        <div class="header-container">
-            <header>
-                <div class="header-body">
-                    <h1>Dashboard</h1>
-                </div>
-            </header>
-            <div class="flash-container">
-                {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <ul class="flashes">
-                        {% for message in messages %}
-                            <li class="flash-message">{{ message }}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
-            </div>
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()">
-            </div>
-        </div>
-        <div class="table-container">
-            <table class="dashboard-table">
-                <thead>
-                    <tr>
-                        <th>Key</th>
-                        <th>URL</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for kv in key_values %}
-                    <tr>
-                        <td>{{ kv.key }}</td>
-                        <td>{{ kv.value }}</td>
-                        <td>
-                            <button class="update-button" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
-                            <button class="delete-button" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
-                        </td>
-                    </tr>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col h-screen overflow-hidden p-6">
+    <div class="w-full p-4 flex flex-col items-center">
+        <div class="mt-4">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="list-none text-center">
+                    {% for message in messages %}
+                        <li class="bg-green-100 text-green-800 p-3 border border-green-200 rounded-md animate-fade-out shadow-md">{{ message }}</li>
                     {% endfor %}
-                </tbody>
-            </table>
+                    </ul>
+                {% endif %}
+            {% endwith %}
         </div>
-        <form class="add-form" method="POST">
-            <div class="form-group">
-                <label for="key">Key:</label>
-                <input type="text" id="key" name="key" required>
+        <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 my-6 relative">
+            <input type="text" id="search-input" placeholder="Search Key..." oninput="filterTable()" class="w-full p-3 pl-10 border-2 border-gray-300 rounded-full text-base bg-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 shadow-md transition-all duration-300">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
             </div>
-            <div class="form-group">
-                <label for="value">URL:</label>
-                <input type="text" id="value" name="value" required>
-            </div>
-            <button type="submit" class="add-button">Add Key-Value</button>
-        </form>
+        </div>
     </div>
-</body>
-</html>
+
+    <div class="overflow-x-auto px-4">
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-500">Organization Level</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse mb-6 shadow-lg rounded-lg overflow-hidden" id="organization-table">
+                    <thead class="bg-gradient-to-r from-gray-400 to-gray-400 text-black">
+                        <tr>
+                            <th class="border-b  p-3 text-left font-bold sticky top-0 z-10 w-auto">Key</th>
+                            <th class="border-b  p-3 text-left font-bold sticky top-0 z-10 max-w-xs">URL</th>
+                            <th class="border-b  p-3 text-left font-bold sticky top-0 z-10">Organization</th>
+                            <th class="border-b  p-3 text-left font-bold sticky top-0 z-10">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for kv in org_key_values %}
+                        <tr class="even:bg-gray-50 hover:bg-indigo-50 transition-colors duration-200">
+                            <td class="border-b border-gray-200 p-3 w-auto">{{ kv.key }}</td>
+                            <td class="border-b border-gray-200 p-3 max-w-xs break-words">
+                                <a href="{{ kv.value }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline">{{ kv.value }}</a>
+                            </td>
+                            <td class="border-b border-gray-200 p-3">{{ kv.org_name }}</td>
+                            <td class="border-b border-gray-200 p-3">
+                                <button class="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-yellow-600 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                                <button class="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg ml-2 focus:outline-none focus:ring-2 focus:ring-red-400" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-500">Team Level</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse mb-6 shadow-lg rounded-lg overflow-hidden" id="team-table">
+                    <thead class="bg-gradient-to-r from-gray-400 to-gray-400 text-black">
+                        <tr>
+                            <th class="border-b p-3 text-left font-bold sticky top-0 z-10 w-auto">Key</th>
+                            <th class="border-b p-3 text-left font-bold sticky top-0 z-10 max-w-xs">URL</th>
+                            <th class="border-b p-3 text-left font-bold sticky top-0 z-10">Teams</th>
+                            <th class="border-b p-3 text-left font-bold sticky top-0 z-10">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for kv in team_key_values %}
+                        <tr class="even:bg-gray-50 hover:bg-indigo-50 transition-colors duration-200">
+                            <td class="border-b border-gray-200 p-3 w-auto">{{ kv.key }}</td>
+                            <td class="border-b border-gray-200 p-3 max-w-xs break-words">
+                                <a href="{{ kv.value }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline">{{ kv.value }}</a>
+                            </td>
+                            <td class="border-b border-gray-200 p-3">
+                                {{ kv.team_names }}
+                                {% if not kv.team_names %}
+                                    <span class="text-gray-200 italic">(No teams)</span>
+                                {% endif %}
+                            </td>
+                            <td class="border-b border-gray-200 p-3">
+                                <button class="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-yellow-600 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                                <button class="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg ml-2 focus:outline-none focus:ring-2 focus:ring-red-400" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-500">Personal Level</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse mb-6 shadow-lg rounded-lg overflow-hidden" id="personal-table">
+                    <thead class="bg-gradient-to-r from-gray-400 to-gray-400 text-black">
+                        <tr>
+                            <th class="border-b p-3 text-left font-bold sticky top-0 z-10 w-auto">Key</th>
+                            <th class="border-b p-3 text-left font-bold sticky top-0 z-10 max-w-xs">URL</th>
+                            <th class="border-b p-3 text-left font-bold sticky top-0 z-10">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for kv in personal_key_values %}
+                        <tr class="even:bg-gray-50 hover:bg-indigo-50 transition-colors duration-200">
+                            <td class="border-b border-gray-300 p-3 w-auto">{{ kv.key }}</td>
+                            <td class="border-b border-gray-200 p-3 max-w-xs break-words">
+                                <a href="{{ kv.value }}" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline">{{ kv.value }}</a>
+                            </td>
+                            <td class="border-b border-gray-200 p-3">
+                                <button class="bg-yellow-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-yellow-600 transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400" onclick="updateValue('{{ kv.key }}', '{{ kv.value }}')">Update</button>
+                                <button class="bg-red-500 text-white px-3 py-1.5 rounded-full text-sm hover:bg-red-600 transition-colors duration-200 shadow-md hover:shadow-lg ml-2 focus:outline-none focus:ring-2 focus:ring-red-400" onclick="confirmDelete('{{ kv.key }}')">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="fixed bottom-5 right-5 z-50 group">
+    <span class="text-5xl text-green-600 cursor-pointer bg-white border-2 border-green-600 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-200 flex items-center justify-center w-16 h-16" onclick="toggleAddForm()">
+        <i class="fas fa-plus"></i>
+    </span>
+    <span class="absolute bottom-full right-0 mb-2 bg-green-600 text-white px-3 py-1 rounded-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">Add New</span>
+</div>
+
+<form class="fixed w-11/12 md:w-2/3 lg:w-1/2 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-white p-8 border border-gray-300 rounded-lg shadow-2xl hidden" id="add-form" onsubmit="addKeyValue(event)">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-700">Add New Key-Value Pair</h2>
+    <div class="mb-4">
+        <label for="key" class="block font-bold mb-2 text-gray-700">Key:</label>
+        <input type="text" id="key" name="key" required class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200">
+    </div>
+    <div class="mb-4">
+        <label for="value" class="block font-bold mb-2 text-gray-700">URL:</label>
+        <input type="text" id="value" name="value" required class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200">
+    </div>
+    <div class="mb-4">
+        <label for="level" class="block font-bold mb-2 text-gray-700">Level:</label>
+        <select id="level" name="level" required onchange="toggleOrganizationTeamSelect()" class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 transition-all duration-200">
+            <option value="personal">Personal</option>
+            <option value="team">Team</option>
+            <option value="organization">Organization</option>
+        </select>
+    </div>
+    <div class="mb-4 hidden" id="organization-select">
+        <label for="organization" class="block font-bold mb-2 text-gray-700">Organization:</label>
+        <select id="organization" name="organization" class="w-full p-3 text-base border border-gray-300 rounded bg-gray-100 focus:outline-none focus:border-indigo-500 focus:bg-white transition-all duration-200">
+            {% for org in organizations %}
+                <option value="{{ org.id }}">{{ org.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-4 hidden" id="team-select">
+        <label class="block font-bold mb-2 text-gray-700">Teams:</label>
+        <div class="max-h-48 overflow-y-auto border border-gray-300 rounded bg-gray-100 p-2">
+            {% for team in teams %}
+                <div class="flex items-center mb-2">
+                    <input type="checkbox" id="team_{{ team.id }}" name="teams" value="{{ team.id }}" class="form-checkbox h-5 w-5 text-indigo-600 transition duration-150 ease-in-out">
+                    <label for="team_{{ team.id }}" class="ml-2 text-sm text-gray-700">{{ team.name }}</label>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="flex justify-center space-x-4 mt-6">
+        <button type="submit" id="add-key-value-btn" class="bg-gradient-to-r from-green-400 to-green-600 text-white px-8 py-3 rounded-full text-base font-semibold cursor-pointer hover:from-green-500 hover:to-green-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+            <span class="button-text flex items-center">
+                <i class="fas fa-plus-circle mr-2"></i>
+                Add Key-Value
+            </span>
+            <span class="hidden">
+                <i class="fas fa-spinner fa-spin"></i>
+            </span>
+        </button>
+        <button type="button" onclick="toggleAddForm()" class="bg-gradient-to-r from-red-400 to-red-600 text-white px-8 py-3 rounded-full text-base font-semibold cursor-pointer hover:from-red-500 hover:to-red-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+            <span class="flex items-center">
+                <i class="fas fa-times-circle mr-2"></i>
+                Close
+            </span>
+        </button>
+    </div>
+</form>
+{% endblock %}
