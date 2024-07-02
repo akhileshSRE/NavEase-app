@@ -123,7 +123,19 @@ function setupOutsideClickListener() {
     });
 }
 
-function addKeyValue(event) {
+async function checkKeyExists(key) {
+    const response = await fetch('/api/v1/check_key', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ key })
+    });
+    const data = await response.json();
+    return data.exists;
+}
+
+async function addKeyValue(event) {
     event.preventDefault();
 
     const key = document.getElementById('key').value;
@@ -131,6 +143,13 @@ function addKeyValue(event) {
     const level = document.getElementById('level').value;
     const organization = document.getElementById('organization')?.value;
     const teams = Array.from(document.querySelectorAll('input[name="teams"]:checked')).map(checkbox => checkbox.value);
+
+    const keyExists = await checkKeyExists(key);
+    if (keyExists) {
+        alert('This key already exists. Please use a unique key.');
+        return;
+    }
+    
     const submitButton = document.getElementById('add-key-value-btn');
     const buttonText = submitButton.querySelector('.button-text');
     const loadingSpinner = submitButton.querySelector('.hidden');

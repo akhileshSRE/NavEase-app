@@ -87,6 +87,10 @@ def add_url():
     try:
         user = User.query.get(session['user_id'])
         
+        # Check if key already exists
+        if KeyValue.query.filter_by(key=key).first():
+            return jsonify({"error": "This key already exists"}), 409
+        
         if level == 'organization':
             organization_id = data.get('organization_id')
             if not organization_id:
@@ -128,12 +132,6 @@ def add_url():
         
         return jsonify({"message": "Key-value pair added successfully", "newEntry": new_entry}), 201
     
-    except IntegrityError as e:
-        db.session.rollback()
-        logging.error(f"IntegrityError: {str(e)}")
-        if "UNIQUE constraint failed" in str(e):
-            return jsonify({"error": "This key already exists for the selected level and entity."}), 409
-        return jsonify({"error": "An error occurred while saving the key-value pair."}), 409
     except SQLAlchemyError as e:
         db.session.rollback()
         logging.error(f"SQLAlchemyError: {str(e)}")
@@ -142,3 +140,13 @@ def add_url():
         db.session.rollback()
         logging.error(f"Unexpected error: {str(e)}")
         return jsonify({"error": "An unexpected error occurred"}), 500
+    
+@bp.route('/api/v1/check_key', methods=['POST'])
+@login_required
+def check_key():
+    data = request.json
+    key = data.get('key')
+
+    exists = KeyValue.query.filter_by(key=key).first() is not None
+
+    return jsonify({"exists": exists}), 200
