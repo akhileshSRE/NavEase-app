@@ -150,3 +150,40 @@ def check_key():
     exists = KeyValue.query.filter_by(key=key).first() is not None
 
     return jsonify({"exists": exists}), 200
+
+@bp.route('/api/v1/user/<string:username>/organization', methods=['GET'])
+@login_required
+def get_user_organization(username):
+    user = User.query.filter_by(username=username).first()
+    
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    
+    if user.organization_id:
+        organization = Organization.query.get(user.organization_id)
+        org_data = {
+            "id": organization.id,
+            "name": organization.name
+        } if organization else None
+    else:
+        org_data = None
+    
+    return jsonify({"organization": org_data}), 200
+
+@bp.route('/api/v1/user/<string:username>/teams', methods=['GET'])
+@login_required
+def get_user_teams(username):
+    user = User.query.filter_by(username=username).first()
+    
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    
+    if not user.organization_id:
+        return jsonify({"error": "User does not belong to any organization"}), 404
+    
+    # Query all teams belonging to the user's organization
+    teams = Team.query.filter_by(organization_id=user.organization_id).all()
+    
+    team_data = [{"id": team.id, "name": team.name} for team in teams]
+    
+    return jsonify({"teams": team_data}), 200
